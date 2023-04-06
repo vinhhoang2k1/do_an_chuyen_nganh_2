@@ -1,0 +1,52 @@
+- Tên project
+    - Quản lý lịch trình tàu (trên cạn)
+- Các chức năng
+    - Xuất báo cáo thống kê
+        - Thống kê số lượng tàu, 
+        - Thông kê số chuyến theo ngày
+    - Quản lý người dùng
+        - Người dùng đăng nhập vào hệ thống
+        - Thêm, sửa, xoá, danh sách 
+    - Quản lý tàu
+        - Quản lý con tàu
+        - Thêm, sửa, xoá, danh sách 
+    - Quản lý tuyến tàu
+        - Quản lý tuyến
+            - VD: Tuyến Hà Nội - Hải Phòng
+        - Thêm, sửa, xoá, danh sách
+    - Quản lý lịch trình 
+        - Chọn ngày đi + thời gian khởi hành + tuyến tàu -> thêm chuyến 
+        - Thêm, xoá, danh sách
+- công nghệ sử dụng
+    - Database -> mysql
+    - Backend -> expressjs
+        - Thư viện swagger UI
+    - Frontend -> reactjs, axios, 
+        - Thư viện UI: ant design + template
+- Phân công
+    - Database
+        - Quân, Tuấn, Vinh, Tiến, Trung
+    - Backend
+        - Quân + Tuấn 
+    - Frontend
+        - Vinh + Tiến + Tuấn
+- Timeline
+    - Giai đoạn 1
+        - 5/4 ->9/4 -> Base project
+    - Giai đoạn 2
+        - 10/4 ->13/4 -> Quản lý người dùng
+    - Giai đoạn 3
+        - 14/4 -> 17/4 -> Quản lý tàu
+    - Giai đoạn 4
+        - 18/4 -> 21/4 -> Quản lý tuyến tàu
+    - Giai đoạn 5
+        - 22/4 ->25/4 -> Quản lý lịch trình
+    - Giai đoạn 6
+        - 26/4 -> 3/5 -> Xuất báo cáo thống kê
+    - Giai đoạn 7
+        - 4/5 -> 5/5 -> final
+- Base project
+    - Init project -> Vinh : react + express
+    - Vinh -> create react app 
+    - Quân -> express
+
