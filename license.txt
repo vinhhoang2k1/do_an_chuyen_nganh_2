@@ -49,4 +49,3 @@
     - Init project -> Vinh : react + express
     - Vinh -> create react app 
     - Quân -> express
-
