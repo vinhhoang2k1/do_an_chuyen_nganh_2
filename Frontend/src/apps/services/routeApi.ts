@@ -2,12 +2,21 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import baseQueryWithReauth from '@apps/config/baseQueryWithReauth'
 import { readAccessToken } from '@utils/localStorage'
 
+interface TrainRoute {
+    id:number,
+    start: string;
+    time: number;
+    to: string;
+    description: string;
+  }
+  
+
 export const routeApi = createApi({
     reducerPath: 'routeApi',
     baseQuery: baseQueryWithReauth,
     tagTypes: ['routeApi'],
     endpoints: (build) => ({
-        getRoutes: build.query({
+        getRoutes: build.query<TrainRoute[],void>({
             query: () => ({
                 url: `/routes`,
                 method: 'GET',
@@ -17,7 +26,7 @@ export const routeApi = createApi({
         }),
 
         updateRoute: build.mutation({
-            query: (routeData) => ({
+            query: (routeData:TrainRoute) => ({
                 url: `/routes/${routeData.id}`,
                 method: 'PUT',
                 body: routeData,
@@ -27,7 +36,7 @@ export const routeApi = createApi({
         }),
 
         deleteRoute: build.mutation({
-            query: (routeId) => ({
+            query: (routeId:number) => ({
                 url: `/routes/${routeId}`,
                 method: 'DELETE',
                 access_token: readAccessToken(),
@@ -36,7 +45,7 @@ export const routeApi = createApi({
         }),
 
         createRoute: build.mutation({
-            query: (routeData) => ({
+            query: (routeData:TrainRoute) => ({
                 url: `/routes`,
                 method: 'POST',
                 body: routeData,
