@@ -4,14 +4,14 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 import translationEN from './en/translation.json'
-import translationJP from './jp/translation.json'
+import translationVN from './vn/translation.json'
 
 const resources = {
   en: {
     translation: translationEN,
   },
-  jp: {
-    translation: translationJP,
+  vn: {
+    translation: translationVN,
   },
 }
 
@@ -25,7 +25,7 @@ i18n
       i18n.language ||
       window.localStorage.i18nextLng ||
       process.env.REACT_APP_DEFAULT_LANGUAGE,
-    fallbackLng: 'en',
+    fallbackLng: 'vn',
     debug: false,
     interpolation: {
       escapeValue: false,
