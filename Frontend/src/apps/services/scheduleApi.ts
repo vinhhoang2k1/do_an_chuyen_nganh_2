@@ -3,8 +3,8 @@ import baseQueryWithReauth from '@apps/config/baseQueryWithReauth'
 import { readAccessToken } from '@utils/localStorage'
 
 interface ScheduleData {
-    trainCode: string;
-    routeCode: string;
+    shipId: number;
+    routeId: number;
     time: Date;
 }
 
