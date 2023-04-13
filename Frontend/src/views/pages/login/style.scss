@@ -2,21 +2,37 @@
   height: 100vh;
   display: flex;
   align-items: center;
-  background: #eff4f9;
+  background: #f7f4f5;
 
   .login-form {
     padding: 60px 30px;
-    background: #fff;
+    background: #ff5f3b;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    height: 500px;
 
     .logo {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
 
       img {
-        max-width: 20%;
+        max-width: 30%;
+      }
+      h2 {
+        color: #f7f4f5;
       }
     }
+    input {
+      height: 40px;
+    }
+    .login-btn {
+      background: #f8f6f4;
+      color: #FF5733;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      height: 40px;
+    }
+
   }
 }
