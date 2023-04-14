@@ -3,8 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 require('dotenv').config();
-const dbConfig = require('./src/configs/db.config');
-const route = require("./src/routes/routes");
+const dbConfig = require('./configs/db.config');
+const route = require("./routes/routes");
 const app = express();
 app.use(morgan('combined')); // Server logger
 
@@ -23,5 +23,5 @@ app.get('/Trains', function (req, res) {
     });
 });
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => res.send('Đồ án chuyên ngành 2!'));
 app.listen(port, () => console.log(`App listening at https://localhost:${port}`));
