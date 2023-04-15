@@ -3,14 +3,17 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 require('dotenv').config();
-const dbConfig = require('./configs/db.config');
-const route = require("./routes/routes");
+
 const app = express();
+const route = require("./routes/routes");
 app.use(morgan('combined')); // Server logger
 
+const dbConfig = require('./configs/db.config');
+
 const port = process.env.PORT || 3000;
-app.use(express.json());
+app.use(express.json()); // json decode
 app.use(cors());
+
 route(app); // routes
 
 dbConfig.connectDb(); // Connect Database

@@ -1,10 +1,8 @@
+const trainRoutes = require("./train.routes");
 
 function route(app) {
-  app.get('/', (req, res) => {
-    return res.json({
-      message: "Đồ án chuyên ngành 2 - BackEnd!"
-    });
-  });
+  app.use("/api/train", trainRoutes); // train routes
+
 }
 
 module.exports = route;
