@@ -8,19 +8,19 @@ const app = express();
 const route = require("./routes/routes");
 app.use(morgan('combined')); // Server logger
 
-const dbConfig = require('./configs/db.config');
+const { conn } = require('./configs/db.config');
 
-const port = process.env.PORT || 3000;
+const port = process.env.NODE_PORT || 5000;
 app.use(express.json()); // json decode
 app.use(cors());
 
 route(app); // routes
 
-dbConfig.connectDb(); // Connect Database
+conn.connect(); // Connect Database
 
 app.get('/Trains', function (req, res) {
     var sql = "SELECT * FROM Train";
-    dbConfig.db.query(sql, function (err, results) {
+    conn.query(sql, function (err, results) {
         if (err) throw err;
         res.send(results);
     });
