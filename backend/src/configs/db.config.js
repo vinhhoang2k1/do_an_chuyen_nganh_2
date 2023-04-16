@@ -15,6 +15,4 @@ conn.connect(function (err) {
   console.log("MySql Database Connected!");
 });
 
-module.exports = {
-  conn
-};
+module.exports = conn;
