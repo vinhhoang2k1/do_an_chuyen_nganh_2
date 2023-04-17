@@ -1,9 +1,12 @@
 const getDataService = require("../services/getData.services");
 const insertDataService = require("../services/insertData.services");
+const updateDataService = require("../services/updateData.services");
+const deleteDataService = require("../services/deleteDataServices");
 
 const createSingleTrain = async (req, res, next) => {
-  const { trainNumber, seatsNumber, status, trainLineId, createdAt, updatedAt } = req.body;
-  if (!trainNumber || !seatsNumber || !status || !trainLineId || !createdAt || !updatedAt) {
+  const { trainNumber, seatsNumber, status, createdAt, updatedAt } = req.body;
+  if (!trainNumber || !seatsNumber || !createdAt || !updatedAt 
+    || typeof status === "undefined" || typeof status === "null") {
     return res
       .status(400)
       .json({
@@ -53,8 +56,54 @@ const getAllTrain = async (req, res, next) => {
   }
 }
 
+const updateSingleTrain = async (req, res, next) => {
+  try {
+    const dataUpdated = req.body;
+    const id = req.params.id;
+    await updateDataService.updateMultipleRow('Trains', dataUpdated, id);
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Train is updated',
+      })
+
+  } catch (error) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Internal server error: ' + error,
+      })
+  }
+
+}
+
+const deleteSingleTrain = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    await deleteDataService.deleteSingleRow('Trains', id);
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Train is removed',
+      })
+
+  } catch (error) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Internal server error: ' + error,
+      })
+  }
+
+}
 
 module.exports = {
   createSingleTrain,
   getAllTrain,
+  updateSingleTrain,
+  deleteSingleTrain
 }
