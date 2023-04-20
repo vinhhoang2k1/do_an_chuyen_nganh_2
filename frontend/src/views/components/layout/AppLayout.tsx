@@ -35,13 +35,13 @@ const items: MenuProps['items'] = [
     getMenuItem('Tạo người dùng', '/user/create'),
     getMenuItem('Danh sách người dùng', '/user/list'),
   ]),
-  getMenuItem('Quản lý tàu', '/ship', <RocketOutlined />, [
-    getMenuItem('Tạo mới tàu', '/ship/create'),
-    getMenuItem('Danh sách tàu', '/ship/list'),
+  getMenuItem('Quản lý tàu', '/train', <RocketOutlined />, [
+    getMenuItem('Tạo mới tàu', '/train/create'),
+    getMenuItem('Danh sách tàu', '/train/list'),
   ]),
-  getMenuItem('Quản lý nhà ga', '/ship-router', <RocketOutlined />, [
-    getMenuItem('Tạo mới tuyến tàu', '/ship-router/create'),
-    getMenuItem('Danh sách tuyến tàu', '/ship-router/list'),
+  getMenuItem('Quản lý nhà ga', '/station', <RocketOutlined />, [
+    getMenuItem('Tạo mới nhà ga', '/station/create'),
+    getMenuItem('Danh sách nhà ga', '/station/list'),
   ]),
   getMenuItem('Quản lý lịch trình tàu', '/ship-schedule', <RocketOutlined />, [
     getMenuItem('Tạo mới lịch trình tàu', '/ship-schedule/create'),
