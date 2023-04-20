@@ -16,13 +16,13 @@ export const routeConfig = [
   {
     id: 'User_create',
     path: '/user/create',
-    component: lazy(() => import('@pages/home/HomePage')),
+    component: lazy(() => import('@pages/user/Create')),
     isProtected: true,
   },
   {
     id: 'User_list',
     path: '/user/list',
-    component: lazy(() => import('@pages/home/HomePage')),
+    component: lazy(() => import('@pages/user/List')),
     isProtected: true,
   },
   {
