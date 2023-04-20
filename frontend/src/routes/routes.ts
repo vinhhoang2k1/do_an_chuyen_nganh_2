@@ -52,7 +52,7 @@ export const routeConfig = [
   {
     id: 'ship_schedule_create',
     path: '/ship-schedule/create',
-    component: lazy(() => import('@pages/home/HomePage')),
+    component: lazy(() => import('@pages/schedule')),
     isProtected: true,
   },
 ]
