@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
-import './style.scss'
 
 const List: React.FC = () => {
   const { t } = useTranslation()
@@ -132,7 +131,7 @@ const List: React.FC = () => {
       <GridDataTable
         columns={columns}
         data={[]}
-        title={'Danh sách người dùng'}
+        title={'Danh sách tàu'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page
           0
@@ -143,7 +142,7 @@ const List: React.FC = () => {
             className="ml-10 flex-center"
             style={{ gap: '.2rem' }}
           >
-            {'Tạo người dùng'}
+            {'Tạo mới tàu'}
           </Button>
         }
         handlePageChange={handlePageChange}

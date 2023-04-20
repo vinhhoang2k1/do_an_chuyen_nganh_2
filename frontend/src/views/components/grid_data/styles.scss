@@ -1,0 +1,45 @@
+.ant-table-wrapper {
+    #grid-data-table {
+      .ant-table-title {
+        font-size: 1.2rem;
+        font-weight: 800;
+        display: flex;
+        justify-content: space-between;
+      }
+  
+      .ant-table-container {
+        .ant-table-thead {
+          tr .ant-table-cell {
+            font-size: 0.9rem;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+  
+  .ant-dropdown {
+    width: 185px;
+  
+    .ant-table-filter-dropdown {
+      .filter_container {
+        padding: .5rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+  
+        .title {
+          margin-bottom: .5rem;
+        }
+  
+        .ant-select {
+          width: 100%;
+        }
+      }
+    }
+  }
+  
+  .ant-select-dropdown {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
