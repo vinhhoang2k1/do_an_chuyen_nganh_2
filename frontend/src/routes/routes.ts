@@ -13,4 +13,46 @@ export const routeConfig = [
     component: lazy(() => import('@pages/home/HomePage')),
     isProtected: true,
   },
+  {
+    id: 'User_create',
+    path: '/user/create',
+    component: lazy(() => import('@pages/home/HomePage')),
+    isProtected: true,
+  },
+  {
+    id: 'User_list',
+    path: '/user/list',
+    component: lazy(() => import('@pages/home/HomePage')),
+    isProtected: true,
+  },
+  {
+    id: 'ship_create',
+    path: '/ship/create',
+    component: lazy(() => import('@pages/home/HomePage')),
+    isProtected: true,
+  },
+  {
+    id: 'ship_list',
+    path: '/ship/list',
+    component: lazy(() => import('@pages/home/HomePage')),
+    isProtected: true,
+  },
+  {
+    id: 'ship_router_create',
+    path: '/ship-router/create',
+    component: lazy(() => import('@pages/home/HomePage')),
+    isProtected: true,
+  },
+  {
+    id: 'ship_router_list',
+    path: '/ship-router/list',
+    component: lazy(() => import('@pages/home/HomePage')),
+    isProtected: true,
+  },
+  {
+    id: 'ship_schedule_create',
+    path: '/ship-schedule/create',
+    component: lazy(() => import('@pages/home/HomePage')),
+    isProtected: true,
+  },
 ]
