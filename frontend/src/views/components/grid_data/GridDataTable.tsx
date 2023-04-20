@@ -39,7 +39,7 @@ const GridDataTable = ({
           <div className="flex-end">{buttonCreate && buttonCreate}</div>
         </>
       )}
-      scroll={{ x: '480px', y: '55vh' }}
+      // scroll={{ x: '480px', y: '55vh' }}
       pagination={{
         onChange: handlePageChange,
         total,
