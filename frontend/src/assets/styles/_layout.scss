@@ -98,6 +98,7 @@ a {
       border-bottom-left-radius: 5px;
       margin-left: 10px;
     }
+
     &.ant-menu-inline {
       border-right: none;
       padding: 15px 0;
@@ -171,6 +172,7 @@ a {
     &.ant-menu:not(.ant-menu-horizontal) {
       .ant-menu-item-selected {
         background: $primary;
+        color: $white;
       }
     }
 
