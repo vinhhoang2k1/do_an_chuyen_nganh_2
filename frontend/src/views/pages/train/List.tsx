@@ -62,7 +62,7 @@ const List: React.FC = () => {
         ),
       },
       {
-        title: 'Họ tên',
+        title: 'Số hiệu tàu',
         dataIndex: 'fullname',
         key: 'fullname',
         ellipsis: true,
@@ -81,13 +81,13 @@ const List: React.FC = () => {
         ),
       },
       {
-        title: 'Email',
+        title: 'Số ghế',
         dataIndex: 'email',
         key: 'email',
         ellipsis: true,
       },
       {
-        title: 'Số điện thoại',
+        title: 'Trạng thái',
         dataIndex: 'phone',
         key: 'phone',
         ellipsis: true,

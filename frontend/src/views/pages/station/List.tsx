@@ -62,9 +62,9 @@ const List: React.FC = () => {
         ),
       },
       {
-        title: 'Họ tên',
-        dataIndex: 'fullname',
-        key: 'fullname',
+        title: 'Tên nhà ga',
+        dataIndex: 'nameStation',
+        key: 'nameStation',
         ellipsis: true,
         render: (_) => (
           <span
@@ -81,15 +81,9 @@ const List: React.FC = () => {
         ),
       },
       {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-        ellipsis: true,
-      },
-      {
-        title: 'Số điện thoại',
-        dataIndex: 'phone',
-        key: 'phone',
+        title: 'Địa chỉ',
+        dataIndex: 'placeStation',
+        key: 'placeStation',
         ellipsis: true,
       },
       {
