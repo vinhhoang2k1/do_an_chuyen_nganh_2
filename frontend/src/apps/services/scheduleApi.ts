@@ -4,14 +4,14 @@ import { readAccessToken } from '@utils/localStorage'
 
 interface ScheduleData {
     id: number;
-  trainId: number;
-  startStationId: number;
-  endStationId: number;
-  timeStart: Date;
-  timeRunning: number;
-  timeBreak: number;
-  createdAt: Date;
-  updatedAt: Date;
+    trainId: number;
+    startStationId: number;
+    endStationId: number;
+    timeStart: Date;
+    timeRunning: number;
+    timeBreak: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export const scheduleApi = createApi({

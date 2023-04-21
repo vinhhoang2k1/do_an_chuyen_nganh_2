@@ -7,7 +7,7 @@ import { Button, Col, Form, Input, Row } from 'antd'
 import { setCredentials } from '@apps/slices/authSlice'
 import { saveAccessToken } from '@utils/localStorage'
 import { useAppDispatch } from '@apps/hooks'
-import logo from '@images/logo-scuti.png'
+import logo from '@images/5.jpeg'
 
 import './style.scss'
 
@@ -38,8 +38,8 @@ export default function LoginPage() {
 
   return (
     <article id="login-page">
-      <Row justify="center" className="w-100 mb-30">
-        <Col span={6}>
+      <Row justify="center" className="w-100 mb-90">
+        <Col span={8}>
           <Form
             name="normal_login"
             className="login-form"
@@ -48,18 +48,22 @@ export default function LoginPage() {
           >
             <div className="logo">
               <img src={logo} alt="" />
+              <h2>Login your account</h2>
             </div>
+
             <Form.Item
               name="email"
               rules={[
                 { required: true, message: trans('emailErrorMessage') },
                 { type: 'email', message: trans('emailErrorMessage') },
               ]}
+
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder={trans('email')}
               />
+
             </Form.Item>
             <Form.Item
               name="password"
@@ -74,7 +78,7 @@ export default function LoginPage() {
               />
             </Form.Item>
             <Form.Item className="text-center" noStyle>
-              <Button type="primary" htmlType="submit" block>
+              <Button className='login-btn' type="primary" htmlType="submit" block>
                 <b>{trans('btnLogin')}</b>
               </Button>
             </Form.Item>
