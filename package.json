@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "fullstack",
+  "version": "1.0.0",
+  "description": "fullstack-workspace",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "backend": "yarn workspace backend start",
+    "frontend": "yarn workspace frontend dev",
+    "start": "concurrently --kill-others-on-fail \"yarn backend\"  \"yarn frontend\""
+  },
+  "keywords": [
+    "fullstack"
+  ],
+  "author": "MaiyonDev",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  }
+}

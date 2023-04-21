@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "nodemon --inspect ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "do-an-chuyen-nganh-2",
+    "back-end"
+  ],
+  "author": "Maiyon, TuanDev",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-paginate": "^1.0.2",
+    "jsonwebtoken": "^9.0.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.2.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22"
+  }
+}
