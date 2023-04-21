@@ -7,7 +7,7 @@ import { Button, Col, Form, Input, Row } from 'antd'
 import { setCredentials } from '@apps/slices/authSlice'
 import { saveAccessToken } from '@utils/localStorage'
 import { useAppDispatch } from '@apps/hooks'
-import logo from '@images/logo-scuti.png'
+import logo from '@images/5.jpeg'
 
 import './style.scss'
 
