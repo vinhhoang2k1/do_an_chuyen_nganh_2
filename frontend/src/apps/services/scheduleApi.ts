@@ -3,9 +3,15 @@ import baseQueryWithReauth from '@apps/config/baseQueryWithReauth'
 import { readAccessToken } from '@utils/localStorage'
 
 interface ScheduleData {
-    shipId: number;
-    routeId: number;
-    time: Date;
+    id: number;
+    trainId: number;
+    startStationId: number;
+    endStationId: number;
+    timeStart: Date;
+    timeRunning: number;
+    timeBreak: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export const scheduleApi = createApi({
