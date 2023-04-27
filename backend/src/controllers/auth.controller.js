@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
-const getDataService = require("../services/getData.services");
+const getdataService = require("../services/getData.services");
 const insertDataService = require("../services/insertData.services");
 
 const register = async (req, res, next) => {
@@ -15,7 +15,7 @@ const register = async (req, res, next) => {
       })
   }
   try {
-    const isExisted = await getDataService.getMultipleRows("Admins", { "email": email })
+    const isExisted = await getdataService.getData("Admins", { "email": email }, 1)
     if (isExisted[0]) { // if email is existed 
       return res
         .status(400)
@@ -46,7 +46,7 @@ const register = async (req, res, next) => {
     await insertDataService.createSingleRow('Admins', admin); // insert data into database
     
     const accessToken = jwt.sign( // generate access token
-      {userId: adminExisted.id},
+      {user: admin.email},
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: process.env.ACCESS_TOKEN_LIFE
@@ -82,9 +82,9 @@ const login = async (req, res, next) => {
   }
 
   try {
-    const adminExisted = await getDataService.getMultipleRows("Admins", { "email": email });
-    console.log('adminExisted', adminExisted);
-    if (!adminExisted[0]) { // if email is not correct   
+    let adminExisted = await getdataService.getData("Admins", { "email": email });
+    adminExisted = adminExisted[0];
+    if (!adminExisted) { // if email is not correct   
       return res
         .status(400)
         .json({
@@ -92,7 +92,7 @@ const login = async (req, res, next) => {
           message: "Email or password is not correct",
         })
     }
-    const isPasswordValid = bcrypt.compareSync(password, adminExisted[0].password);
+    const isPasswordValid = bcrypt.compareSync(password, adminExisted.password);
     if (!isPasswordValid) { // if password is not correct
       return res
         .status(400)
@@ -103,7 +103,7 @@ const login = async (req, res, next) => {
     }
 
     const accessToken = jwt.sign( // generate access token
-      {userId: adminExisted.id},
+      {user: adminExisted.email},
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: process.env.ACCESS_TOKEN_LIFE

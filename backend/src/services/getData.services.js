@@ -1,11 +1,16 @@
 const dbConfig = require("../configs/db.config");
+const checker = require("../utils/checker");
 
-const getMultipleRows = (table, condition) => {
+const getData = (table, condition, limit) => {
   let sql = "";
-  if (!condition) { // get data without condition
+
+  // get data without condition
+  if (!condition || checker.isObjectEmpty(condition)) { 
     sql = `SELECT * FROM ${table}`;
   }
-  else { // get data with condition
+
+  // get data by condition
+  else { 
     const fields = Object.keys(condition);
     const values = Object.values(condition);
     let conditionStr = "";
@@ -20,6 +25,13 @@ const getMultipleRows = (table, condition) => {
     sql = `SELECT * FROM ${table} WHERE ${conditionStr}`;
     sql = sql.slice(0, -1);
   }
+
+  // result limit
+  if(limit && typeof limit === "number") {
+    sql += ` LIMIT ${limit}`;
+  }
+  
+  // return a Promise
   return new Promise((resolve, reject) => {
     dbConfig.query(sql, (err, results) => {
       if (err) {
@@ -31,5 +43,6 @@ const getMultipleRows = (table, condition) => {
 }
 
 module.exports = {
-  getMultipleRows,
-}
+  getData
+};
+

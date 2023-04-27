@@ -1,4 +1,4 @@
-const getDataService = require("../services/getData.services");
+const getdataService = require("../services/getData.services");
 const insertDataService = require("../services/insertData.services");
 const updateDataService = require("../services/updateData.services");
 const deleteDataService = require("../services/deleteDataServices");
@@ -37,7 +37,7 @@ const createSingleTrain = async (req, res, next) => {
 
 const getAllTrain = async (req, res, next) => {
   try {
-    const trains = await getDataService.getMultipleRows("Trains");
+    const trains = await getdataService.getData("Trains");
     return res
       .status(200)
       .json({
