@@ -40,6 +40,19 @@ create table Schedules (
     updatedAt datetime
 );
 
+create table Admins (
+    id int auto_increment primary key,
+	fullName varchar(255),
+    cccdNumber char(12),
+    email char(255),
+    password varchar(1000),
+    phoneNumber char(10),
+    department varchar(255),
+    address varchar(255),
+    createdAt datetime,
+    updatedAt datetime
+);
+
 alter table Schedules
 add constraint FK_Schedules_Trains
 foreign key (trainId) references Trains(id);
