@@ -1,27 +1,27 @@
 const express = require("express");
 const router = express.Router();
-const trainController = require("../controllers/train.controller");
+const trainStationController = require("../controllers/trainStation.controller");
 const authMiddleware = require("../middlewares/auth.middleware")
 
 /**
  * @swagger
  * tags:
- *   name: Train API
- *   description: Thêm sửa xoá Train
+ *   name: Train station API
+ *   description: Thêm sửa xoá Train station
  */
 
 /**
  * @swagger
- * /api/train:
+ * /api/train-station:
  *   post:
- *     summary: Create single train
- *     tags: [Train API]
+ *     summary: Create single train station
+ *     tags: [Train station API]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Train'
+ *             $ref: '#/components/schemas/Trainstation'
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -34,14 +34,14 @@ const authMiddleware = require("../middlewares/auth.middleware")
  *       500:
  *         description: Internal server error
  */
-router.post("/", authMiddleware.verifyToken, trainController.createSingleTrain);
+router.post("/", authMiddleware.verifyToken, trainStationController.createSingleTrainStation);
 
 /**
  * @swagger
- * /api/train:
+ * /api/train-station:
  *   get:
- *     summary: Get all train
- *     tags: [Train API]
+ *     summary: Get all train station
+ *     tags: [Train station API]
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -52,23 +52,23 @@ router.post("/", authMiddleware.verifyToken, trainController.createSingleTrain);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Train'
+ *                 $ref: '#/components/schemas/Trainstation'
  */
-router.get("/", authMiddleware.verifyToken, trainController.getAllTrain);
+router.get("/", authMiddleware.verifyToken, trainStationController.getAllTrainStation);
 
 /**
  * @swagger
- * /api/train/{id}:
+ * /api/train-station/{id}:
  *   get:
- *     summary: Get train by id
- *     tags: [Train API]
+ *     summary: Get train station by id
+ *     tags: [Train station API]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
  *         required: true
- *         description: Train id
+ *         description: Train station id
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -79,56 +79,56 @@ router.get("/", authMiddleware.verifyToken, trainController.getAllTrain);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Train'
+ *                 $ref: '#/components/schemas/Trainstation'
  */
-router.get("/:id", authMiddleware.verifyToken, trainController.getTrainById);
+router.get("/:id", authMiddleware.verifyToken, trainStationController.getTrainStationById);
 
 /**
  * @swagger
- * /api/train/{id}:
+ * /api/train-station/{id}:
  *   put:
- *     summary: Update train by id
- *     tags: [Train API]
+ *     summary: Update train station by id
+ *     tags: [Train station API]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
  *         required: true
- *         description: Train id
+ *         description: Train station id
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Train'
+ *             $ref: '#/components/schemas/Trainstation'
  *     security: 
  *         - bearerAuth: []
  *     responses:
  *       200:
- *         description: Update train successfully
+ *         description: Update train station successfully
  *         content:
  *           application/json:
  *             schema:
- *              $ref: '#/components/schemas/Train'
+ *              $ref: '#/components/schemas/Trainstation'
  *       500:
  *         description: Internal server error
  */
-router.put("/:id", authMiddleware.verifyToken, trainController.updateSingleTrain);
+router.put("/:id", authMiddleware.verifyToken, trainStationController.updateSingleTrainStation);
 
 /**
  * @swagger
- * /api/train/{id}:
+ * /api/train-station/{id}:
  *   delete:
- *     summary: Remove train by id
- *     tags: [Train API]
+ *     summary: Remove train station by id
+ *     tags: [Train station API]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
  *         required: true
- *         description: Train id
+ *         description: Train station id
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -138,8 +138,8 @@ router.put("/:id", authMiddleware.verifyToken, trainController.updateSingleTrain
  *           application/json:
  *             schema:
  *               type: object
- *               $ref: '#/components/schemas/Train'
+ *               $ref: '#/components/schemas/Trainstation'
  */
-router.delete("/:id", authMiddleware.verifyToken, trainController.deleteSingleTrain);
+router.delete("/:id", authMiddleware.verifyToken, trainStationController.deleteSingleTrainStation);
 
 module.exports = router;

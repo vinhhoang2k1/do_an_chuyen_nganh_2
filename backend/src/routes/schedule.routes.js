@@ -1,47 +1,47 @@
 const express = require("express");
 const router = express.Router();
-const trainController = require("../controllers/train.controller");
+const scheduleController = require("../controllers/schedule.controller");
 const authMiddleware = require("../middlewares/auth.middleware")
 
 /**
  * @swagger
  * tags:
- *   name: Train API
- *   description: Thêm sửa xoá Train
+ *   name: Schedule API
+ *   description: Thêm sửa xoá Schedule
  */
 
 /**
  * @swagger
- * /api/train:
+ * /api/schedule:
  *   post:
- *     summary: Create single train
- *     tags: [Train API]
+ *     summary: Create single Schedule
+ *     tags: [Schedule API]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Train'
+ *             $ref: '#/components/schemas/Schedules'
  *     security: 
  *         - bearerAuth: []
  *     responses:
  *       200:
- *         description: Create single train successfully
+ *         description: Create single Schedule successfully
  *         content:
  *           application/json:
  *             schema:
- *              $ref: '#/components/schemas/Train'
+ *              $ref: '#/components/schemas/Schedules'
  *       500:
  *         description: Internal server error
  */
-router.post("/", authMiddleware.verifyToken, trainController.createSingleTrain);
+router.post("/", authMiddleware.verifyToken, scheduleController.createSingleSchedule);
 
 /**
  * @swagger
- * /api/train:
+ * /api/schedule:
  *   get:
- *     summary: Get all train
- *     tags: [Train API]
+ *     summary: Get all Schedule
+ *     tags: [Schedule API]
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -52,23 +52,23 @@ router.post("/", authMiddleware.verifyToken, trainController.createSingleTrain);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Train'
+ *                 $ref: '#/components/schemas/Schedules'
  */
-router.get("/", authMiddleware.verifyToken, trainController.getAllTrain);
+router.get("/", authMiddleware.verifyToken, scheduleController.getAllSchedule);
 
 /**
  * @swagger
- * /api/train/{id}:
+ * /api/schedule/{id}:
  *   get:
- *     summary: Get train by id
- *     tags: [Train API]
+ *     summary: Get Schedule by id
+ *     tags: [Schedule API]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
  *         required: true
- *         description: Train id
+ *         description: Schedule id
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -79,29 +79,29 @@ router.get("/", authMiddleware.verifyToken, trainController.getAllTrain);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Train'
+ *                 $ref: '#/components/schemas/Schedules'
  */
-router.get("/:id", authMiddleware.verifyToken, trainController.getTrainById);
+router.get("/:id", authMiddleware.verifyToken, scheduleController.getScheduleById);
 
 /**
  * @swagger
- * /api/train/{id}:
+ * /api/schedule/{id}:
  *   put:
- *     summary: Update train by id
- *     tags: [Train API]
+ *     summary: Update Schedule by id
+ *     tags: [Schedule API]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
  *         required: true
- *         description: Train id
+ *         description: Schedule id
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Train'
+ *             $ref: '#/components/schemas/Schedules'
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -110,25 +110,25 @@ router.get("/:id", authMiddleware.verifyToken, trainController.getTrainById);
  *         content:
  *           application/json:
  *             schema:
- *              $ref: '#/components/schemas/Train'
+ *              $ref: '#/components/schemas/Schedules'
  *       500:
  *         description: Internal server error
  */
-router.put("/:id", authMiddleware.verifyToken, trainController.updateSingleTrain);
+router.put("/:id", authMiddleware.verifyToken, scheduleController.updateSingleSchedule);
 
 /**
  * @swagger
- * /api/train/{id}:
+ * /api/schedule/{id}:
  *   delete:
- *     summary: Remove train by id
- *     tags: [Train API]
+ *     summary: Remove Schedule by id
+ *     tags: [Schedule API]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
  *         required: true
- *         description: Train id
+ *         description: Schedule id
  *     security: 
  *         - bearerAuth: []
  *     responses:
@@ -138,8 +138,8 @@ router.put("/:id", authMiddleware.verifyToken, trainController.updateSingleTrain
  *           application/json:
  *             schema:
  *               type: object
- *               $ref: '#/components/schemas/Train'
+ *               $ref: '#/components/schemas/Schedules'
  */
-router.delete("/:id", authMiddleware.verifyToken, trainController.deleteSingleTrain);
+router.delete("/:id", authMiddleware.verifyToken, scheduleController.deleteSingleSchedule);
 
 module.exports = router;

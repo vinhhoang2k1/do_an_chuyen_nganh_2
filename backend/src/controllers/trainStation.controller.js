@@ -3,25 +3,24 @@ const insertDataService = require("../services/insertData.services");
 const updateDataService = require("../services/updateData.services");
 const deleteDataService = require("../services/deleteDataServices");
 
-const createSingleTrain = async (req, res, next) => {
-  const { trainNumber, seatsNumber, status, createdAt, updatedAt } = req.body;
-  if (!trainNumber || !seatsNumber || !createdAt || !updatedAt 
-    || typeof status === "undefined" || typeof status === "null") {
+const createSingleTrainStation = async (req, res, next) => {
+  const { stationName, stationPlace, createdAt, updatedAt } = req.body;
+  if (!stationName || !stationPlace || !createdAt || !updatedAt) {
     return res
       .status(400)
       .json({
         success: false,
-        message: "Properties of train is not enough",
+        message: "Properties of train station is not enough",
       })
   }
   try {
-    const train = req.body;
-    await insertDataService.createSingleRow('Trains', train);
+    const trainStation = req.body;
+    await insertDataService.createSingleRow('Trainstations', trainStation);
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Create single train successfully',
+        message: 'Create single train station successfully',
       })
 
   } catch (error) {
@@ -35,14 +34,14 @@ const createSingleTrain = async (req, res, next) => {
 
 }
 
-const getAllTrain = async (req, res, next) => {
+const getAllTrainStation = async (req, res, next) => {
   try {
-    const trains = await getdataService.getData("Trains");
+    const trains = await getdataService.getData("Trainstations");
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Get all train successfully',
+        message: 'Get all train station successfully',
         results: trains.length,
         trains
       })
@@ -56,16 +55,16 @@ const getAllTrain = async (req, res, next) => {
   }
 }
 
-const getTrainById = async (req, res, next) => {
+const getTrainStationById = async (req, res, next) => {
   try {
-    const trainId = req.params.id;
-    const train = await getdataService.getData("Trains", {"id": trainId});
+    const trainStationId = req.params.id;
+    const trainStation = await getdataService.getData("Trainstations", {"id": trainStationId});
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Get train by id successfully',
-        train
+        message: 'Get train station by id successfully',
+        trainStation
       })
   } catch (error) {
     return res
@@ -77,16 +76,16 @@ const getTrainById = async (req, res, next) => {
   }
 }
 
-const updateSingleTrain = async (req, res, next) => {
+const updateSingleTrainStation = async (req, res, next) => {
   try {
     const dataUpdated = req.body;
     const id = req.params.id;
-    await updateDataService.updateMultipleRow('Trains', dataUpdated, id);
+    await updateDataService.updateMultipleRow('Trainstations', dataUpdated, id);
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Train is updated',
+        message: 'Train station is updated',
       })
 
   } catch (error) {
@@ -100,15 +99,15 @@ const updateSingleTrain = async (req, res, next) => {
 
 }
 
-const deleteSingleTrain = async (req, res, next) => {
+const deleteSingleTrainStation = async (req, res, next) => {
   try {
     const id = req.params.id;
-    await deleteDataService.deleteSingleRow('Trains', id);
+    await deleteDataService.deleteSingleRow('Trainstations', id);
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Train is removed',
+        message: 'Train station is removed',
       })
 
   } catch (error) {
@@ -123,9 +122,9 @@ const deleteSingleTrain = async (req, res, next) => {
 }
 
 module.exports = {
-  createSingleTrain,
-  getAllTrain,
-  getTrainById,
-  updateSingleTrain,
-  deleteSingleTrain
+  createSingleTrainStation,
+  getAllTrainStation,
+  getTrainStationById,
+  updateSingleTrainStation,
+  deleteSingleTrainStation,
 }

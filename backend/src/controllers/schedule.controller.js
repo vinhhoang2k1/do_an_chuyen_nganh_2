@@ -3,25 +3,24 @@ const insertDataService = require("../services/insertData.services");
 const updateDataService = require("../services/updateData.services");
 const deleteDataService = require("../services/deleteDataServices");
 
-const createSingleTrain = async (req, res, next) => {
-  const { trainNumber, seatsNumber, status, createdAt, updatedAt } = req.body;
-  if (!trainNumber || !seatsNumber || !createdAt || !updatedAt 
-    || typeof status === "undefined" || typeof status === "null") {
+const createSingleSchedule= async (req, res, next) => {
+  const {trainId, startStationId, endStationId, timeStart, timeRunning, timeBreak, createdAt, updatedAt} = req.body;
+  if (!trainId || !startStationId || !endStationId || !timeStart || !timeRunning || !timeBreak || !createdAt || !updatedAt){       
     return res
       .status(400)
       .json({
         success: false,
-        message: "Properties of train is not enough",
+        message: "Properties of schedule is not enough",
       })
   }
   try {
-    const train = req.body;
-    await insertDataService.createSingleRow('Trains', train);
+    const schedule = req.body;
+    await insertDataService.createSingleRow('Schedules', schedule);
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Create single train successfully',
+        message: 'Create single schedule successfully',
       })
 
   } catch (error) {
@@ -35,16 +34,16 @@ const createSingleTrain = async (req, res, next) => {
 
 }
 
-const getAllTrain = async (req, res, next) => {
+const getAllSchedule = async (req, res, next) => {
   try {
-    const trains = await getdataService.getData("Trains");
+    const schedules = await getdataService.getData("Schedules");
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Get all train successfully',
-        results: trains.length,
-        trains
+        message: 'Get all schedule successfully',
+        results: schedules.length,
+        schedules
       })
   } catch (error) {
     return res
@@ -56,15 +55,15 @@ const getAllTrain = async (req, res, next) => {
   }
 }
 
-const getTrainById = async (req, res, next) => {
+const getScheduleById = async (req, res, next) => {
   try {
-    const trainId = req.params.id;
-    const train = await getdataService.getData("Trains", {"id": trainId});
+    const scheduleid = req.params.id;
+    const schedule = await getdataService.getData("Schedules", {"id": scheduleid});
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Get train by id successfully',
+        message: 'Get schedule by id successfully',
         train
       })
   } catch (error) {
@@ -77,16 +76,16 @@ const getTrainById = async (req, res, next) => {
   }
 }
 
-const updateSingleTrain = async (req, res, next) => {
+const updateSingleSchedule = async (req, res, next) => {
   try {
     const dataUpdated = req.body;
     const id = req.params.id;
-    await updateDataService.updateMultipleRow('Trains', dataUpdated, id);
+    await updateDataService.updateMultipleRow('Schedules', dataUpdated, id);
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Train is updated',
+        message: 'Schedule is updated',
       })
 
   } catch (error) {
@@ -100,15 +99,15 @@ const updateSingleTrain = async (req, res, next) => {
 
 }
 
-const deleteSingleTrain = async (req, res, next) => {
+const deleteSingleSchedule = async (req, res, next) => {
   try {
     const id = req.params.id;
-    await deleteDataService.deleteSingleRow('Trains', id);
+    await deleteDataService.deleteSingleRow('Schedules', id);
     return res
       .status(200)
       .json({
         success: true,
-        message: 'Train is removed',
+        message: 'Schedule is removed',
       })
 
   } catch (error) {
@@ -123,9 +122,9 @@ const deleteSingleTrain = async (req, res, next) => {
 }
 
 module.exports = {
-  createSingleTrain,
-  getAllTrain,
-  getTrainById,
-  updateSingleTrain,
-  deleteSingleTrain
+  createSingleSchedule,
+  getAllSchedule,
+  getScheduleById,
+  updateSingleSchedule,
+  deleteSingleSchedule
 }
