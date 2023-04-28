@@ -128,8 +128,30 @@ const login = async (req, res, next) => {
 
 }
 
+const getAllAdmin = async (req, res, next) => {
+  try {
+    const admins = await getdataService.getData("Admins");
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Get all admin successfully',
+        results: admins.length,
+        admins
+      })
+  } catch (error) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Internal server error: ' + error,
+      })
+  }
+}
+
 
 module.exports = {
   register,
-  login
+  login,
+  getAllAdmin
 }
