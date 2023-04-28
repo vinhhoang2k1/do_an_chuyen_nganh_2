@@ -55,6 +55,27 @@ const getAllTrainStation = async (req, res, next) => {
   }
 }
 
+const getTrainStationById = async (req, res, next) => {
+  try {
+    const trainStationId = req.params.id;
+    const trainStation = await getdataService.getData("Trainstations", {"id": trainStationId});
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Get train station by id successfully',
+        trainStation
+      })
+  } catch (error) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Internal server error: ' + error,
+      })
+  }
+}
+
 const updateSingleTrainStation = async (req, res, next) => {
   try {
     const dataUpdated = req.body;
@@ -103,6 +124,7 @@ const deleteSingleTrainStation = async (req, res, next) => {
 module.exports = {
   createSingleTrainStation,
   getAllTrainStation,
+  getTrainStationById,
   updateSingleTrainStation,
-  deleteSingleTrainStation
+  deleteSingleTrainStation,
 }

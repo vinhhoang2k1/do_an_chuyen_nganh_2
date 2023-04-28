@@ -59,6 +59,33 @@ router.get("/", authMiddleware.verifyToken, trainController.getAllTrain);
 /**
  * @swagger
  * /api/train/{id}:
+ *   get:
+ *     summary: Get train by id
+ *     tags: [Train API]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Train id
+ *     security: 
+ *         - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Train'
+ */
+router.get("/:id", authMiddleware.verifyToken, trainController.getTrainById);
+
+/**
+ * @swagger
+ * /api/train/{id}:
  *   put:
  *     summary: Update train by id
  *     tags: [Train API]

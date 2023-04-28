@@ -59,6 +59,33 @@ router.get("/", authMiddleware.verifyToken, trainStationController.getAllTrainSt
 /**
  * @swagger
  * /api/train-station/{id}:
+ *   get:
+ *     summary: Get train station by id
+ *     tags: [Train station API]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Train station id
+ *     security: 
+ *         - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Trainstation'
+ */
+router.get("/:id", authMiddleware.verifyToken, trainStationController.getTrainStationById);
+
+/**
+ * @swagger
+ * /api/train-station/{id}:
  *   put:
  *     summary: Update train station by id
  *     tags: [Train station API]
