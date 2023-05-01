@@ -4,7 +4,21 @@ import { readAccessToken } from '@utils/localStorage'
 
 interface UserData {
   id: number;
-  name: string;
+  fullName: string;
+  cccdNumber: number;
+  email: string;
+  password: string;
+  phoneNumber: number;
+  department: string;
+  address: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+interface Response {
+  success: boolean;
+  message: string;
+  results: number;
+  admins: UserData[];
 }
 
 export const userApi = createApi({
@@ -33,7 +47,7 @@ export const userApi = createApi({
 
     createUser: build.mutation({
       query: (userData: UserData) => ({
-        url: `/users`,
+        url: `/auth/register`,
         method: 'POST',
         body: userData,
         access_token: readAccessToken(),
@@ -41,9 +55,9 @@ export const userApi = createApi({
       invalidatesTags: ['userApi'],
     }),
 
-    getUsers: build.query<UserData[], void>({
+    getUsers: build.query<Response, void>({
       query: () => ({
-        url: `/users`,
+        url: `/auth/list`,
         method: 'GET',
         access_token: readAccessToken(),
       }),

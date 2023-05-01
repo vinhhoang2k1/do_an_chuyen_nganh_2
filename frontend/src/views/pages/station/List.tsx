@@ -9,8 +9,17 @@ import { useTranslation } from 'react-i18next'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
 
+import {
+  useGettrainStationsQuery,
+  useDeletetrainStationMutation,
+  useUpdatetrainStationMutation
+} from '@apps/services/trainStationApi'
+
 const List: React.FC = () => {
   const { t } = useTranslation()
+  const { data: { trains = [] } = {} } = useGettrainStationsQuery();
+
+  const [deleteStation] = useDeletetrainStationMutation()
   // const navigate = useNavigate()
 
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
@@ -41,13 +50,21 @@ const List: React.FC = () => {
     },
     [],
   )
-  const handleOpenDeleteConfirm = () => {
+  const handleOpenDeleteConfirm = async (id: number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
+    console.log('dây là id:', id);
+    try {
+      await deleteStation(id).unwrap()
+      // Xóa thành công
+    } catch (err) {
+      console.error(err)
+      // Xử lý lỗi
+    }
   }
 
   // const handleCancelDeleteConfirm = () => {
-    // setVisibleDeleteConfirm(false)
+  // setVisibleDeleteConfirm(false)
   // }
 
   const columns = useMemo((): ColumnsType<any> => {
@@ -55,16 +72,17 @@ const List: React.FC = () => {
       {
         title: 'STT',
         width: 60,
-        render: () => (
+        render: (_, __, index) => (
           <div style={{ textAlign: 'center', width: '100%' }}>
             {/* {(params.page - 1) * 10 + (index + 1)} */}
+            {index + 1}
           </div>
         ),
       },
       {
         title: 'Tên nhà ga',
-        dataIndex: 'nameStation',
-        key: 'nameStation',
+        dataIndex: 'stationName',
+        key: 'stationName',
         ellipsis: true,
         render: (_) => (
           <span
@@ -82,8 +100,20 @@ const List: React.FC = () => {
       },
       {
         title: 'Địa chỉ',
-        dataIndex: 'placeStation',
-        key: 'placeStation',
+        dataIndex: 'stationPlace',
+        key: 'stationPlace',
+        ellipsis: true,
+      },
+      {
+        title: 'Ngày tạo',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        ellipsis: true,
+      },
+      {
+        title: 'Ngày sửa',
+        dataIndex: 'updatedAt',
+        key: 'updatedAt',
         ellipsis: true,
       },
       {
@@ -95,9 +125,7 @@ const List: React.FC = () => {
               <Tag
                 color={'geekblue'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  console.log('a')
-                }}
+                onClick={() => useUpdatetrainStationMutation(value)}
               >
                 <EditOutlined />
               </Tag>
@@ -106,7 +134,7 @@ const List: React.FC = () => {
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value)}
+                onClick={() => handleOpenDeleteConfirm(value.id)}
               >
                 <DeleteOutlined />
               </Tag>
@@ -115,7 +143,7 @@ const List: React.FC = () => {
         ),
       },
     ]
-  }, [ t])
+  }, [t])
 
   // useEffect(() => {
   //   disPatch(setLoading({ isLoading: isLoading || isFetching }))
@@ -124,7 +152,7 @@ const List: React.FC = () => {
     <>
       <GridDataTable
         columns={columns}
-        data={[]}
+        data={trains}
         title={'Danh sách nhà ga'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page

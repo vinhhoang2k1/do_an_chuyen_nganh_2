@@ -13,6 +13,12 @@ interface ScheduleData {
     createdAt: Date;
     updatedAt: Date;
 }
+interface Response {
+    success: boolean;
+    message: string;
+    results: number;
+    schedules: ScheduleData[];
+  }
 
 export const scheduleApi = createApi({
     reducerPath: 'scheduleApi',
@@ -22,7 +28,7 @@ export const scheduleApi = createApi({
 
         deleteSchedule: build.mutation({
             query: (scheduleId: number) => ({
-                url: `/schedules/${scheduleId}`,
+                url: `/schedule/${scheduleId}`,
                 method: 'DELETE',
                 access_token: readAccessToken(),
             }),
@@ -31,7 +37,7 @@ export const scheduleApi = createApi({
 
         createSchedule: build.mutation({
             query: (scheduleData: ScheduleData) => ({
-                url: `/schedules`,
+                url: `/schedule`,
                 method: 'POST',
                 body: scheduleData,
                 access_token: readAccessToken(),
@@ -39,9 +45,9 @@ export const scheduleApi = createApi({
             invalidatesTags: ['scheduleApi'],
         }),
 
-        getSchedules: build.query<ScheduleData[], void>({
+        getSchedules: build.query<Response, void>({
             query: () => ({
-                url: `/schedules`,
+                url: `/schedule`,
                 method: 'GET',
                 access_token: readAccessToken(),
             }),

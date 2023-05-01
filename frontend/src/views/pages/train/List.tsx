@@ -8,11 +8,20 @@ import { useTranslation } from 'react-i18next'
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
+import {
+  useGettrainsQuery,
+  useDeletetrainMutation,
+  // useUpdatetrainMutation
+} from '@apps/services/trainApi'
 
 const List: React.FC = () => {
   const { t } = useTranslation()
-  // const navigate = useNavigate()
+  const { data: { trains = [] } = {} } = useGettrainsQuery();
 
+  const [deleteTrain] = useDeletetrainMutation()
+
+
+  // const navigate = useNavigate()
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
   // const [seletedDelete, setSeletedDelete] = useState<any>({})
   // const [params, setParams] = useState<ListFloorType>({
@@ -41,55 +50,68 @@ const List: React.FC = () => {
     },
     [],
   )
-  const handleOpenDeleteConfirm = () => {
+  const handleOpenDeleteConfirm = async(id:number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
+    try {
+      await deleteTrain(id).unwrap()
+      // Xóa thành công
+    } catch (err) {
+      console.error(err)
+      // Xử lý lỗi
+    }
   }
-
-  // const handleCancelDeleteConfirm = () => {
-    // setVisibleDeleteConfirm(false)
-  // }
-
+  
   const columns = useMemo((): ColumnsType<any> => {
     return [
       {
         title: 'STT',
         width: 60,
-        render: () => (
+        render: (_, __, index) => (
           <div style={{ textAlign: 'center', width: '100%' }}>
             {/* {(params.page - 1) * 10 + (index + 1)} */}
+            {index + 1}
           </div>
         ),
       },
       {
         title: 'Số hiệu tàu',
-        dataIndex: 'fullname',
-        key: 'fullname',
+        dataIndex: 'trainNumber',
+        key: 'trainNumber',
         ellipsis: true,
-        render: (_) => (
-          <span
-            onClick={() => {
-              console.log('a')
-            }}
-            style={{
-              cursor: 'pointer',
-              color: '#1d39c4',
-            }}
-          >
-            {_}
-          </span>
+        render: (_, record) => (
+          <a href={`/train/${record.id}`} style={{ color: '#1d39c4' }}>
+            {record.trainNumber}
+          </a>
         ),
       },
       {
         title: 'Số ghế',
-        dataIndex: 'email',
-        key: 'email',
+        dataIndex: 'seatsNumber',
+        key: 'seatsNumber',
         ellipsis: true,
       },
       {
         title: 'Trạng thái',
-        dataIndex: 'phone',
-        key: 'phone',
+        dataIndex: 'status',
+        key: 'status',
+        ellipsis: true,
+        render: (status: boolean) => (
+          <Tag color={status ? 'green' : 'red'}>
+            {status ? 'Hoạt động' : 'Tạm ngừng'}
+          </Tag>
+        ),
+      },
+      {
+        title: 'Ngày tạo',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        ellipsis: true,
+      },
+      {
+        title: 'Ngày sửa',
+        dataIndex: 'updatedAt',
+        key: 'updatedAt',
         ellipsis: true,
       },
       {
@@ -101,9 +123,10 @@ const List: React.FC = () => {
               <Tag
                 color={'geekblue'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  console.log('a')
-                }}
+                onClick={
+                  // () => useUpdatetrainMutation(value)
+                 ()=>console.log('update:',value.id)
+                }
               >
                 <EditOutlined />
               </Tag>
@@ -112,7 +135,7 @@ const List: React.FC = () => {
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value)}
+                onClick={() => handleOpenDeleteConfirm(value.id)}
               >
                 <DeleteOutlined />
               </Tag>
@@ -121,7 +144,7 @@ const List: React.FC = () => {
         ),
       },
     ]
-  }, [ t])
+  }, [t])
 
   // useEffect(() => {
   //   disPatch(setLoading({ isLoading: isLoading || isFetching }))
@@ -130,7 +153,7 @@ const List: React.FC = () => {
     <>
       <GridDataTable
         columns={columns}
-        data={[]}
+        data={trains}
         title={'Danh sách tàu'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page

@@ -8,10 +8,17 @@ import { useTranslation } from 'react-i18next'
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
+
+import { useGetUsersQuery,useDeleteUserMutation,useUpdateUserMutation } from '@apps/services/userApi'
+
 import './style.scss'
 
 const List: React.FC = () => {
   const { t } = useTranslation()
+  const { data: { admins = [] } = {} } = useGetUsersQuery();
+  console.log('list user:', admins);
+
+  const [deleteUser] = useDeleteUserMutation()
   // const navigate = useNavigate()
 
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
@@ -42,9 +49,16 @@ const List: React.FC = () => {
     },
     [],
   )
-  const handleOpenDeleteConfirm = () => {
+  const handleOpenDeleteConfirm = async(id:number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
+    try {
+      await deleteUser(id).unwrap()
+      // Xóa thành công
+    } catch (err) {
+      console.error(err)
+      // Xử lý lỗi
+    }
   }
 
   // const handleCancelDeleteConfirm = () => {
@@ -56,16 +70,17 @@ const List: React.FC = () => {
       {
         title: 'STT',
         width: 60,
-        render: () => (
+        render: (_, __, index) => (
           <div style={{ textAlign: 'center', width: '100%' }}>
             {/* {(params.page - 1) * 10 + (index + 1)} */}
+            {index + 1}
           </div>
         ),
       },
       {
         title: 'Họ tên',
-        dataIndex: 'fullname',
-        key: 'fullname',
+        dataIndex: 'fullName',
+        key: 'fullName',
         ellipsis: true,
         render: (_) => (
           <span
@@ -89,8 +104,8 @@ const List: React.FC = () => {
       },
       {
         title: 'Số điện thoại',
-        dataIndex: 'phone',
-        key: 'phone',
+        dataIndex: 'phoneNumber',
+        key: 'phoneNumber',
         ellipsis: true,
       },
       {
@@ -102,9 +117,7 @@ const List: React.FC = () => {
               <Tag
                 color={'geekblue'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  console.log('a')
-                }}
+                onClick={() => useUpdateUserMutation(value)}
               >
                 <EditOutlined />
               </Tag>
@@ -113,7 +126,7 @@ const List: React.FC = () => {
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value)}
+                onClick={() => handleOpenDeleteConfirm(value.id)}
               >
                 <DeleteOutlined />
               </Tag>
@@ -131,7 +144,7 @@ const List: React.FC = () => {
     <>
       <GridDataTable
         columns={columns}
-        data={[]}
+        data={admins}
         title={'Danh sách người dùng'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page

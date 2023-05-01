@@ -9,6 +9,12 @@ interface trainStation {
     createdAt: Date;
     updatedAt: Date;
 }
+interface Response {
+    success: boolean;
+    message: string;
+    results: number;
+    trains: trainStation[];
+  }
 
 
 export const trainStationApi = createApi({
@@ -16,9 +22,9 @@ export const trainStationApi = createApi({
     baseQuery: baseQueryWithReauth,
     tagTypes: ['trainStationApi'],
     endpoints: (build) => ({
-        gettrainStations: build.query<trainStation[], void>({
+        gettrainStations: build.query<Response, void>({
             query: () => ({
-                url: `/trainStations`,
+                url: `/train-station`,
                 method: 'GET',
                 access_token: readAccessToken(),
             }),
@@ -27,7 +33,7 @@ export const trainStationApi = createApi({
 
         updatetrainStation: build.mutation({
             query: (trainStationData: trainStation) => ({
-                url: `/trainStations/${trainStationData.id}`,
+                url: `/train-station/${trainStationData.id}`,
                 method: 'PUT',
                 body: trainStationData,
                 access_token: readAccessToken(),
@@ -37,7 +43,7 @@ export const trainStationApi = createApi({
 
         deletetrainStation: build.mutation({
             query: (trainStationId: number) => ({
-                url: `/trainStations/${trainStationId}`,
+                url: `/train-station/${trainStationId}`,
                 method: 'DELETE',
                 access_token: readAccessToken(),
             }),
@@ -46,7 +52,7 @@ export const trainStationApi = createApi({
 
         createtrainStation: build.mutation({
             query: (trainStationData: trainStation) => ({
-                url: `/trainStations`,
+                url: `/train-station`,
                 method: 'POST',
                 body: trainStationData,
                 access_token: readAccessToken(),
@@ -61,5 +67,5 @@ export const {
     useGettrainStationsQuery,
     useUpdatetrainStationMutation,
     useDeletetrainStationMutation,
-    useCreatetrainStationMutation,
+    useCreatetrainStationMutation
 } = trainStationApi;
