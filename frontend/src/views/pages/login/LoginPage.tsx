@@ -7,6 +7,7 @@ import { Button, Col, Form, Input, Row } from 'antd'
 import { setCredentials } from '@apps/slices/authSlice'
 import { saveAccessToken } from '@utils/localStorage'
 import { useAppDispatch } from '@apps/hooks'
+import { useLoginMutation } from '@apps/services/loginApi'
 import logo from '@images/5.jpeg'
 
 import './style.scss'
@@ -19,21 +20,35 @@ interface PayloadInterface {
 export default function LoginPage() {
   const { t: trans } = useTranslation()
   const appDispatch = useAppDispatch()
+  const [loginMutation] = useLoginMutation();
 
-  const onFinish = (values: PayloadInterface) => {
-    appDispatch(
-      setCredentials({
-        user: {
-          email: values.email,
-          id: 1,
-          phone: +84123123456,
-          avatar: 'http://abc.xyz',
-        },
-        access_token: '123',
-      }),
-    )
+  const onFinish = async (values: PayloadInterface) => {
+    try {
+      const response = await loginMutation({ email: values.email, password: values.password });
+      console.log('response:',response)
 
-    saveAccessToken('123')
+      if ('error' in response) {
+        // handle error here
+        console.error(response.error);
+        return;
+      }
+      const token:string = response.data.accessToken;
+
+        appDispatch(
+          setCredentials({
+            user: {
+              email: values.email,
+              password: values.password
+            },
+            access_token: token,
+          }),
+        )
+
+        saveAccessToken(token)
+      }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   return (

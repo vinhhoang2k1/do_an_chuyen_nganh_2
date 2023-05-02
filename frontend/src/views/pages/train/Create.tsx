@@ -2,10 +2,28 @@
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
 import React from 'react'
+import { useCreatetrainMutation } from '@apps/services/trainApi'
 import './style.scss'
 const Create = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values)
+
+  const [createTrain] = useCreatetrainMutation();
+  const now = new Date();
+  const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
+  const onFinish = async (values: any) => {
+    const payload = {
+      ...values,
+      createdAt: formattedDate,
+      updatedAt: formattedDate,
+    };
+    try {
+      
+      await createTrain(payload).unwrap()
+      // Xóa thành công
+    } catch (err) {
+      console.error(err)
+      // Xử lý lỗi
+    }
+    console.log('Success', payload)
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -36,17 +54,7 @@ const Create = () => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Tên tàu"
-              name="name"
-              rules={[
-                { required: true, message: 'Please input your username!' },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
+
           <Col span={12}>
             <Form.Item
               label="Số ghế"
@@ -58,6 +66,7 @@ const Create = () => {
               <Input />
             </Form.Item>
           </Col>
+
           <Col span={12}>
             <Form.Item
               label="Trạng thái"
@@ -67,21 +76,43 @@ const Create = () => {
               ]}
             >
               <Select
-                defaultValue="Nhân viên phòng marketing"
                 options={[
                   {
-                    value: 'Nhân viên phòng sale',
-                    label: 'Nhân viên phòng sale',
+                    value: 1,
+                    label: 'Hoạt động',
                   },
                   {
-                    value: 'Nhân viên phòng sale',
-                    label: 'Nhân viên phòng sale',
+                    value: 0,
+                    label: 'Tạm ngưng',
                   },
-                  { value: 'disabled', label: 'Disabled', disabled: true },
+
                 ]}
               />
             </Form.Item>
           </Col>
+          {/* <Col span={12}>
+            <Form.Item
+              label="Ngày tạo"
+              name="createdAt"
+              rules={[
+                { required: true, message: 'Please input your username!' },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col> */}
+
+          {/* <Col span={12}>
+            <Form.Item
+              label="Ngày sửa"
+              name="updatedAt"
+              rules={[
+                { required: true, message: 'Please input your username!' },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col> */}
 
           <Col span={12}>
             <Form.Item

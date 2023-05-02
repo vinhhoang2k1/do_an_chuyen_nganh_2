@@ -2,14 +2,21 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import baseQueryWithReauth from '@apps/config/baseQueryWithReauth'
 import { readAccessToken } from '@utils/localStorage'
 
-interface trainData {
+interface Train {
     id: number;
     trainNumber: string;
     seatsNumber: number;
-    status: boolean;
+    status: number;
     createdAt: Date;
     updatedAt: Date;
-}
+  }
+interface Response {
+    success: boolean;
+    message: string;
+    results: number;
+    trains: Train[];
+  }
+  
 export const trainApi = createApi({
     reducerPath: 'trainApi',
     baseQuery: baseQueryWithReauth,
@@ -17,8 +24,8 @@ export const trainApi = createApi({
     endpoints: (build) => ({
 
         updatetrain: build.mutation({
-            query: (trainData: trainData) => ({
-                url: `/trains/${trainData.id}`,
+            query: (trainData: Train) => ({
+                url: `/train/${trainData.id}`,
                 method: 'PUT',
                 body: trainData,
                 access_token: readAccessToken(),
@@ -28,7 +35,7 @@ export const trainApi = createApi({
 
         deletetrain: build.mutation({
             query: (trainId: number) => ({
-                url: `/trains/${trainId}`,
+                url: `/train/${trainId}`,
                 method: 'DELETE',
                 access_token: readAccessToken(),
             }),
@@ -36,8 +43,8 @@ export const trainApi = createApi({
         }),
 
         createtrain: build.mutation({
-            query: (trainData: trainData) => ({
-                url: `/trains`,
+            query: (trainData: Train) => ({
+                url: `/train`,
                 method: 'POST',
                 body: trainData,
                 access_token: readAccessToken(),
@@ -45,9 +52,9 @@ export const trainApi = createApi({
             invalidatesTags: ['trainApi'],
         }),
 
-        gettrains: build.query<trainData[], void>({
+        gettrains: build.query<Response, void>({
             query: () => ({
-                url: `/trains`,
+                url: `/train`,
                 method: 'GET',
                 access_token: readAccessToken(),
             }),

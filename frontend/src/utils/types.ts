@@ -4,8 +4,6 @@ export type authType = {
 }
 
 export type userType = {
-  id: number
   email: string
-  phone: number
-  avatar: string
+  password: string
 }

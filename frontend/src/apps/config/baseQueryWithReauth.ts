@@ -5,11 +5,11 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query'
 
-import { PATH_API } from '@utils/constants'
+// import { PATH_API } from '@utils/constants'
 import { RootState } from '../store'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: PATH_API,
+  baseUrl: 'http://localhost:5000/api',
 
   prepareHeaders: (headers, { getState }) => {
     const access_token = (getState() as RootState).auth.access_token

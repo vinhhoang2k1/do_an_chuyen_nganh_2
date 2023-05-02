@@ -3,9 +3,28 @@
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
 import React from 'react'
 import './style.scss'
+import { useCreatetrainStationMutation } from '@apps/services/trainStationApi'
+
 const Create = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values)
+  const [createStation] = useCreatetrainStationMutation()
+  const now = new Date();
+  const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
+
+  const onFinish = async (values: any) => {
+    const payload = {
+      ...values,
+      createdAt: formattedDate,
+      updatedAt: formattedDate,
+    };
+    try {
+
+      await createStation(payload).unwrap()
+      // Xóa thành công
+    } catch (err) {
+      console.error(err)
+      // Xử lý lỗi
+    }
+    console.log('Success:', payload)
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -36,30 +55,32 @@ const Create = () => {
               <Input />
             </Form.Item>
           </Col>
+
           <Col span={12}>
             <Form.Item
               label="Địa chỉ ga"
-              name="placeStation"
+              name="stationPlace"
               rules={[
                 { required: true, message: 'Please input your placeStation!' },
               ]}
             >
               <Select
-                defaultValue="1"
+                defaultValue="Hồ Chí Minh"
                 options={[
                   {
-                    value: '1',
+                    value: 'Hà Nội',
                     label: 'Hà Nội',
                   },
                   {
-                    value: '2',
+                    value: 'Hồ Chí Minh',
                     label: 'Hồ Chí Minh',
                   },
                 ]}
               />
             </Form.Item>
           </Col>
-      
+
+
           <Col span={12}>
             <Form.Item
               className="btn-submit"

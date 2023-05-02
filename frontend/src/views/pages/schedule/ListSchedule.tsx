@@ -9,8 +9,14 @@ import { useTranslation } from 'react-i18next'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
 
+import { useGetSchedulesQuery, useDeleteScheduleMutation } from '@apps/services/scheduleApi'
+
 const List: React.FC = () => {
   const { t } = useTranslation()
+  const { data: { schedules = [] } = {} } = useGetSchedulesQuery();
+
+  const [deleteSchedule] = useDeleteScheduleMutation()
+
   // const navigate = useNavigate()
 
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
@@ -41,13 +47,20 @@ const List: React.FC = () => {
     },
     [],
   )
-  const handleOpenDeleteConfirm = () => {
+  const handleOpenDeleteConfirm = async (id: number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
+    try {
+      await deleteSchedule(id).unwrap()
+      // Xóa thành công
+    } catch (err) {
+      console.error(err)
+      // Xử lý lỗi
+    }
   }
 
   // const handleCancelDeleteConfirm = () => {
-    // setVisibleDeleteConfirm(false)
+  // setVisibleDeleteConfirm(false)
   // }
 
   const columns = useMemo((): ColumnsType<any> => {
@@ -55,16 +68,17 @@ const List: React.FC = () => {
       {
         title: 'STT',
         width: 60,
-        render: () => (
+        render: (_, __, index) => (
           <div style={{ textAlign: 'center', width: '100%' }}>
             {/* {(params.page - 1) * 10 + (index + 1)} */}
+            {index + 1}
           </div>
         ),
       },
       {
-        title: 'Số hiệu tàu',
-        dataIndex: 'fullname',
-        key: 'fullname',
+        title: 'Số ID tàu',
+        dataIndex: 'trainId',
+        key: 'trainId',
         ellipsis: true,
         render: (_) => (
           <span
@@ -81,22 +95,22 @@ const List: React.FC = () => {
         ),
       },
       {
-        title: 'Số ghế',
-        dataIndex: 'email',
-        key: 'email',
+        title: 'Giờ khởi hành ',
+        dataIndex: 'timeStart',
+        key: 'timeStart',
         ellipsis: true,
       },
       {
-        title: 'Khởi hành',
-        dataIndex: 'time',
-        key: 'time',
+        title: 'Thời gian chạy',
+        dataIndex: 'timeRunning',
+        key: 'timeRunning',
         ellipsis: true,
       },
-      
+
       {
-        title: 'Trạng thái',
-        dataIndex: 'phone',
-        key: 'phone',
+        title: 'Giờ kết thúc',
+        dataIndex: 'timeBreak',
+        key: 'timeBreak',
         ellipsis: true,
       },
 
@@ -120,7 +134,7 @@ const List: React.FC = () => {
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value)}
+                onClick={() => handleOpenDeleteConfirm(value.id)}
               >
                 <DeleteOutlined />
               </Tag>
@@ -129,7 +143,7 @@ const List: React.FC = () => {
         ),
       },
     ]
-  }, [ t])
+  }, [t])
 
   // useEffect(() => {
   //   disPatch(setLoading({ isLoading: isLoading || isFetching }))
@@ -138,7 +152,7 @@ const List: React.FC = () => {
     <>
       <GridDataTable
         columns={columns}
-        data={[]}
+        data={schedules}
         title={'Danh chuyến tàu chạy'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page
