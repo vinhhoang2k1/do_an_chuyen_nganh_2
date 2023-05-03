@@ -2,6 +2,7 @@
 import { Button, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo } from 'react'
+import moment from 'moment'
 
 import { useTranslation } from 'react-i18next'
 // import { useNavigate } from 'react-router-dom'
@@ -93,18 +94,23 @@ const List: React.FC = () => {
             {_}
           </span>
         ),
+        width:100
       },
       {
         title: 'Giờ khởi hành ',
         dataIndex: 'timeStart',
         key: 'timeStart',
         ellipsis: true,
+        render: (timeStart: string) => (
+          <span>{moment(timeStart).format('HH:mm:ss')}</span>
+        ),
       },
       {
         title: 'Thời gian chạy',
         dataIndex: 'timeRunning',
         key: 'timeRunning',
         ellipsis: true,
+        
       },
 
       {
@@ -153,7 +159,7 @@ const List: React.FC = () => {
       <GridDataTable
         columns={columns}
         data={schedules}
-        title={'Danh chuyến tàu chạy'}
+        title={'Lịch chuyến tàu chạy'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page
           0

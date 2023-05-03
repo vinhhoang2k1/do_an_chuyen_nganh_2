@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
+import { useNavigate } from 'react-router-dom'
+
 import React from 'react'
 import { useCreatetrainMutation } from '@apps/services/trainApi'
 import './style.scss'
 const Create = () => {
-
+  const navigate = useNavigate()
   const [createTrain] = useCreatetrainMutation();
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
@@ -16,7 +18,7 @@ const Create = () => {
       updatedAt: formattedDate,
     };
     try {
-      
+
       await createTrain(payload).unwrap()
       // Xóa thành công
     } catch (err) {
@@ -24,6 +26,7 @@ const Create = () => {
       // Xử lý lỗi
     }
     console.log('Success', payload)
+    navigate('/train/list')
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -48,7 +51,7 @@ const Create = () => {
               label="Số hiệu tàu"
               name="trainNumber"
               rules={[
-                { required: true, message: 'Please input your username!' },
+                { required: true, message: 'Please input train number!' },
               ]}
             >
               <Input />
@@ -60,7 +63,7 @@ const Create = () => {
               label="Số ghế"
               name="seatsNumber"
               rules={[
-                { required: true, message: 'Please input your username!' },
+                { required: true, message: 'Please input seat number!' },
               ]}
             >
               <Input />
@@ -72,7 +75,7 @@ const Create = () => {
               label="Trạng thái"
               name="status"
               rules={[
-                { required: true, message: 'Please input your username!' },
+                { required: true, message: 'Please select status!' },
               ]}
             >
               <Select

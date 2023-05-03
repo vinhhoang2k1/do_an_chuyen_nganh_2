@@ -2,17 +2,17 @@
 import { Button, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo } from 'react'
+import moment from 'moment'
 
 import { useTranslation } from 'react-i18next'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
 
 import {
   useGettrainStationsQuery,
-  useDeletetrainStationMutation,
-  useUpdatetrainStationMutation
+  useDeletetrainStationMutation
 } from '@apps/services/trainStationApi'
 
 const List: React.FC = () => {
@@ -20,7 +20,7 @@ const List: React.FC = () => {
   const { data: { trains = [] } = {} } = useGettrainStationsQuery();
 
   const [deleteStation] = useDeletetrainStationMutation()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
   // const [seletedDelete, setSeletedDelete] = useState<any>({})
@@ -109,12 +109,18 @@ const List: React.FC = () => {
         dataIndex: 'createdAt',
         key: 'createdAt',
         ellipsis: true,
+        render: (createdAt: string) => (
+          <span>{moment(createdAt).format('DD/MM/YYYY')}</span>
+        ),
       },
       {
         title: 'Ngày sửa',
         dataIndex: 'updatedAt',
         key: 'updatedAt',
         ellipsis: true,
+        render: (updatedAt: string) => (
+          <span>{moment(updatedAt).format('DD/MM/YYYY')}</span>
+        ),
       },
       {
         title: "Hành động",
@@ -125,7 +131,7 @@ const List: React.FC = () => {
               <Tag
                 color={'geekblue'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => useUpdatetrainStationMutation(value)}
+                onClick={() => navigate(`/station/update/${value.id}`)}
               >
                 <EditOutlined />
               </Tag>
@@ -163,6 +169,7 @@ const List: React.FC = () => {
             type="primary"
             className="ml-10 flex-center"
             style={{ gap: '.2rem' }}
+            onClick={() => { navigate('/station/create') }}
           >
             {'Tạo nhà ga'}
           </Button>

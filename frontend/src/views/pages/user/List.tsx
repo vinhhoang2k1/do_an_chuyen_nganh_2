@@ -4,12 +4,12 @@ import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo } from 'react'
 
 import { useTranslation } from 'react-i18next'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
 
-import { useGetUsersQuery,useDeleteUserMutation,useUpdateUserMutation } from '@apps/services/userApi'
+import { useGetUsersQuery, useDeleteUserMutation, useUpdateUserMutation } from '@apps/services/userApi'
 
 import './style.scss'
 
@@ -19,7 +19,7 @@ const List: React.FC = () => {
   console.log('list user:', admins);
 
   const [deleteUser] = useDeleteUserMutation()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
   // const [seletedDelete, setSeletedDelete] = useState<any>({})
@@ -49,7 +49,7 @@ const List: React.FC = () => {
     },
     [],
   )
-  const handleOpenDeleteConfirm = async(id:number) => {
+  const handleOpenDeleteConfirm = async (id: number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
     try {
@@ -62,7 +62,7 @@ const List: React.FC = () => {
   }
 
   // const handleCancelDeleteConfirm = () => {
-    // setVisibleDeleteConfirm(false)
+  // setVisibleDeleteConfirm(false)
   // }
 
   const columns = useMemo((): ColumnsType<any> => {
@@ -135,7 +135,7 @@ const List: React.FC = () => {
         ),
       },
     ]
-  }, [ t])
+  }, [t])
 
   // useEffect(() => {
   //   disPatch(setLoading({ isLoading: isLoading || isFetching }))
@@ -155,6 +155,7 @@ const List: React.FC = () => {
             type="primary"
             className="ml-10 flex-center"
             style={{ gap: '.2rem' }}
+            onClick={() => { navigate('/user/create') }}
           >
             {'Tạo người dùng'}
           </Button>

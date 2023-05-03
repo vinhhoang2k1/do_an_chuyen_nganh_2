@@ -1,27 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useParams } from 'react-router-dom'
 
 import React from 'react'
 import './style.scss'
-import { useCreatetrainStationMutation } from '@apps/services/trainStationApi'
+import { useUpdatetrainStationMutation } from '@apps/services/trainStationApi'
 
-const Create = () => {
+const Update = () => {
   const navigate = useNavigate()
-  const [createStation] = useCreatetrainStationMutation()
+  const stationId = useParams()
+
+  const [updateStation] = useUpdatetrainStationMutation()
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
 
   const onFinish = async (values: any) => {
     const payload = {
+      ...stationId,
       ...values,
-      createdAt: formattedDate,
       updatedAt: formattedDate,
     };
     try {
 
-      await createStation(payload).unwrap()
+      await updateStation(payload).unwrap()
       // Xóa thành công
     } catch (err) {
       console.error(err)
@@ -36,7 +38,7 @@ const Create = () => {
   }
 
   return (
-    <Card id="create-station" title="Tạo mới nhà ga" bordered={true}>
+    <Card id="create-station" title="Sửa thông tin nhà ga" bordered={true}>
       <Form
         id="create-form"
         name="create-user"
@@ -101,4 +103,4 @@ const Create = () => {
   )
 }
 
-export default Create
+export default Update

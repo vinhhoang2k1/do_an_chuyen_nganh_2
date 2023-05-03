@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Button, Card, Col, Form, Input, Row, Select} from 'antd';
+import {Button, Card, Col, Form, Input, Row, Select} from 'antd';
+import { useNavigate } from 'react-router-dom'
+
 import React from 'react';
 import "./style.scss";
 import { useCreateUserMutation } from '@apps/services/userApi';
 
 const Create = () => {
+  const navigate = useNavigate()
   const [createUser] = useCreateUserMutation();
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
@@ -24,6 +26,7 @@ const Create = () => {
       // Xử lý lỗi
     }
     console.log('Success:', payload);
+    navigate('/user/list')
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -54,7 +57,7 @@ const Create = () => {
                 <Form.Item
                   label="Họ tên"
                   name="fullName"
-                  rules={[{ required: true, message: 'Please input your username!' }]}
+                  rules={[{ required: true, message: 'Please input your fullname!' }]}
                 >
                   <Input />
                 </Form.Item>
@@ -64,7 +67,7 @@ const Create = () => {
                 <Form.Item
                   label="CCCD/CMND"
                   name="cccdNumber"
-                  rules={[{ required: true, message: 'Please input your username!' }]}
+                  rules={[{ required: true, message: 'Please input your CCCD/CMND!' }]}
                 >
                   <Input />
                 </Form.Item>
@@ -74,7 +77,7 @@ const Create = () => {
                 <Form.Item
                   label="Email"
                   name="email"
-                  rules={[{ required: true, message: 'Please input your password!' }]}
+                  rules={[{ required: true, message: 'Please input your email!' }]}
                 >
                   <Input />
                 </Form.Item>
@@ -84,7 +87,7 @@ const Create = () => {
                 <Form.Item
                   label="Mật khẩu"
                   name="password"
-                  rules={[{ required: true, message: 'Please input your username!' }]}
+                  rules={[{ required: true, message: 'Please input your password!' }]}
                 >
                   <Input.Password />
                 </Form.Item>
@@ -95,7 +98,7 @@ const Create = () => {
                 <Form.Item
                   label="Số điện thoại"
                   name="phoneNumber"
-                  rules={[{ required: true, message: 'Please input your username!' }]}
+                  rules={[{ required: true, message: 'Please input your phone number!' }]}
                 >
                   <Input />
                 </Form.Item>
@@ -115,7 +118,7 @@ const Create = () => {
                 <Form.Item
                   label="Phòng ban"
                   name="department"
-                  rules={[{ required: true, message: 'Please input your username!' }]}
+                  rules={[{ required: true, message: 'Please input your department!' }]}
                 >
                   <Select
                     defaultValue="Nhân viên phòng marketing"
@@ -133,7 +136,7 @@ const Create = () => {
                 <Form.Item
                   label="Địa chỉ"
                   name="address"
-                  rules={[{ required: true, message: 'Please input your password!' }]}
+                  rules={[{ required: true, message: 'Please input your address!' }]}
                 >
                   <Input />
                 </Form.Item>

@@ -2,9 +2,10 @@
 import { Button, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo } from 'react'
+import moment from 'moment'
 
 import { useTranslation } from 'react-i18next'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
@@ -21,7 +22,7 @@ const List: React.FC = () => {
   const [deleteTrain] = useDeletetrainMutation()
 
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
   // const [seletedDelete, setSeletedDelete] = useState<any>({})
   // const [params, setParams] = useState<ListFloorType>({
@@ -50,7 +51,7 @@ const List: React.FC = () => {
     },
     [],
   )
-  const handleOpenDeleteConfirm = async(id:number) => {
+  const handleOpenDeleteConfirm = async (id: number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
     try {
@@ -61,7 +62,7 @@ const List: React.FC = () => {
       // Xử lý lỗi
     }
   }
-  
+
   const columns = useMemo((): ColumnsType<any> => {
     return [
       {
@@ -107,12 +108,18 @@ const List: React.FC = () => {
         dataIndex: 'createdAt',
         key: 'createdAt',
         ellipsis: true,
+        render: (createdAt: string) => (
+          <span>{moment(createdAt).format('DD/MM/YYYY')}</span>
+        ),
       },
       {
         title: 'Ngày sửa',
         dataIndex: 'updatedAt',
         key: 'updatedAt',
         ellipsis: true,
+        render: (createdAt: string) => (
+          <span>{moment(createdAt).format('DD/MM/YYYY')}</span>
+        ),
       },
       {
         title: "Hành động",
@@ -125,7 +132,8 @@ const List: React.FC = () => {
                 style={{ cursor: 'pointer' }}
                 onClick={
                   // () => useUpdatetrainMutation(value)
-                 ()=>console.log('update:',value.id)
+                  () => { navigate(`/train/update/${value.id}`) }
+
                 }
               >
                 <EditOutlined />
@@ -164,6 +172,7 @@ const List: React.FC = () => {
             type="primary"
             className="ml-10 flex-center"
             style={{ gap: '.2rem' }}
+            onClick={() => { navigate('/train/create') }}
           >
             {'Tạo mới tàu'}
           </Button>
