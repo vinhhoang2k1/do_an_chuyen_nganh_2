@@ -60,6 +60,15 @@ export const trainApi = createApi({
             }),
             providesTags: ['trainApi'],
         }),
+
+        gettrain: build.mutation({
+            query: (trainId: number) => ({
+                url: `/train/${trainId}`,
+                method: 'GET',
+                access_token: readAccessToken(),
+            }),
+            invalidatesTags: ['trainApi'],
+        })
     }),
 })
 
@@ -67,5 +76,6 @@ export const {
     useUpdatetrainMutation,
     useDeletetrainMutation,
     useCreatetrainMutation,
-    useGettrainsQuery
+    useGettrainsQuery,
+    useGettrainMutation
 } = trainApi;

@@ -8,6 +8,12 @@ export const routeConfig = [
     isProtected: false,
   },
   {
+    id: 'RegisterPage',
+    path: '/register',
+    component: lazy(() => import('@pages/login/RegisterPage')),
+    isProtected: false,
+  },
+  {
     id: 'HomePage',
     path: '/',
     component: lazy(() => import('@pages/home/HomePage')),

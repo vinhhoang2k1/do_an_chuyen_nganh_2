@@ -4,13 +4,15 @@ import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
 import { useNavigate,useParams } from 'react-router-dom'
 
 import React from 'react'
-import { useUpdatetrainMutation } from '@apps/services/trainApi'
+import { useUpdatetrainMutation,useGettrainMutation } from '@apps/services/trainApi'
 import './style.scss'
 const Update = () => {
   const navigate = useNavigate()
   const trainId = useParams()
   console.log('trainid',trainId)
   const [updateTrain] = useUpdatetrainMutation()
+  const [getTrainById] = useGettrainMutation()
+  console.log('train:',getTrainById)
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
   const onFinish = async (values: any) => {

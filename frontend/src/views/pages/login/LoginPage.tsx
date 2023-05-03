@@ -3,6 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Input, Row } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 import { setCredentials } from '@apps/slices/authSlice'
 import { saveAccessToken } from '@utils/localStorage'
@@ -21,6 +22,7 @@ export default function LoginPage() {
   const { t: trans } = useTranslation()
   const appDispatch = useAppDispatch()
   const [loginMutation] = useLoginMutation();
+  const navigate = useNavigate()
 
   const onFinish = async (values: PayloadInterface) => {
     try {
@@ -96,6 +98,9 @@ export default function LoginPage() {
               <Button className='login-btn' type="primary" htmlType="submit" block>
                 <b>{trans('btnLogin')}</b>
               </Button>
+            </Form.Item>
+            <Form.Item className="text-center" noStyle>
+              <a onClick={()=>navigate('/register')}>Đăng ký</a>
             </Form.Item>
           </Form>
         </Col>
