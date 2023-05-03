@@ -1,34 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useParams } from 'react-router-dom'
 
 import React from 'react'
+import { useUpdatetrainMutation } from '@apps/services/trainApi'
 import './style.scss'
-import { useCreatetrainStationMutation } from '@apps/services/trainStationApi'
-
-const Create = () => {
+const Update = () => {
   const navigate = useNavigate()
-  const [createStation] = useCreatetrainStationMutation()
+  const trainId = useParams()
+  console.log('trainid',trainId)
+  const [updateTrain] = useUpdatetrainMutation()
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
-
   const onFinish = async (values: any) => {
     const payload = {
+      ...trainId,  
       ...values,
-      createdAt: formattedDate,
       updatedAt: formattedDate,
     };
     try {
 
-      await createStation(payload).unwrap()
+      await updateTrain(payload).unwrap()
       // Xóa thành công
     } catch (err) {
       console.error(err)
       // Xử lý lỗi
     }
-    console.log('Success:', payload)
-    navigate('/station/list')
+    console.log('Success', payload)
+    navigate('/train/list')
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -36,7 +36,7 @@ const Create = () => {
   }
 
   return (
-    <Card id="create-station" title="Tạo mới nhà ga" bordered={true}>
+    <Card id="create-train" title="Sửa thông tin tàu" bordered={true}>
       <Form
         id="create-form"
         name="create-user"
@@ -50,10 +50,10 @@ const Create = () => {
         <Row>
           <Col span={12}>
             <Form.Item
-              label="Tên nhà ga"
-              name="stationName"
+              label="Số hiệu tàu"
+              name="trainNumber"
               rules={[
-                { required: true, message: 'Please input station name!' },
+                { required: true, message: 'Please input train number!' },
               ]}
             >
               <Input />
@@ -62,29 +62,39 @@ const Create = () => {
 
           <Col span={12}>
             <Form.Item
-              label="Địa chỉ ga"
-              name="stationPlace"
+              label="Số ghế"
+              name="seatsNumber"
               rules={[
-                { required: true, message: 'Please select place station!' },
+                { required: true, message: 'Please input seat number!' },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item
+              label="Trạng thái"
+              name="status"
+              rules={[
+                { required: true, message: 'Please select status!' },
               ]}
             >
               <Select
-                defaultValue="Hồ Chí Minh"
                 options={[
                   {
-                    value: 'Hà Nội',
-                    label: 'Hà Nội',
+                    value: 1,
+                    label: 'Hoạt động',
                   },
                   {
-                    value: 'Hồ Chí Minh',
-                    label: 'Hồ Chí Minh',
+                    value: 0,
+                    label: 'Tạm ngưng',
                   },
+
                 ]}
               />
             </Form.Item>
           </Col>
-
-
           <Col span={12}>
             <Form.Item
               className="btn-submit"
@@ -101,4 +111,4 @@ const Create = () => {
   )
 }
 
-export default Create
+export default Update
