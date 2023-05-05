@@ -9,14 +9,20 @@ interface Train {
     status: number;
     createdAt: Date;
     updatedAt: Date;
-  }
+}
 interface Response {
     success: boolean;
     message: string;
     results: number;
     trains: Train[];
-  }
-  
+}
+interface ResponseOne {
+    success: boolean;
+    message: string;
+    train: Train[];
+}
+
+
 export const trainApi = createApi({
     reducerPath: 'trainApi',
     baseQuery: baseQueryWithReauth,
@@ -61,14 +67,16 @@ export const trainApi = createApi({
             providesTags: ['trainApi'],
         }),
 
-        gettrain: build.mutation({
-            query: (trainId: number) => ({
+
+        gettrain: build.query<ResponseOne, number>({
+            query: (trainId:number) => ({
                 url: `/train/${trainId}`,
                 method: 'GET',
                 access_token: readAccessToken(),
             }),
-            invalidatesTags: ['trainApi'],
-        })
+
+            providesTags: ['trainApi'],
+        }),
     }),
 })
 
@@ -77,5 +85,5 @@ export const {
     useDeletetrainMutation,
     useCreatetrainMutation,
     useGettrainsQuery,
-    useGettrainMutation
+    useGettrainQuery
 } = trainApi;

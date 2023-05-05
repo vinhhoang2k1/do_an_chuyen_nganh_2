@@ -3,7 +3,7 @@ import { Button, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo } from 'react'
 import moment from 'moment'
-
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 // import { useNavigate } from 'react-router-dom'
 
@@ -15,7 +15,7 @@ import { useGetSchedulesQuery, useDeleteScheduleMutation } from '@apps/services/
 const List: React.FC = () => {
   const { t } = useTranslation()
   const { data: { schedules = [] } = {} } = useGetSchedulesQuery();
-
+  const navigate = useNavigate()
   const [deleteSchedule] = useDeleteScheduleMutation()
 
   // const navigate = useNavigate()
@@ -97,12 +97,26 @@ const List: React.FC = () => {
         width:100
       },
       {
-        title: 'Giờ khởi hành ',
+        title: 'Ga bắt đầu',
+        dataIndex: 'startStationId',
+        key: 'startStationId',
+        ellipsis: true,
+        
+      },
+      {
+        title: 'Ga kết thúc',
+        dataIndex: 'endStationId',
+        key: 'endStationId',
+        ellipsis: true,
+        
+      },
+      {
+        title: 'Ngày khởi hành ',
         dataIndex: 'timeStart',
         key: 'timeStart',
         ellipsis: true,
         render: (timeStart: string) => (
-          <span>{moment(timeStart).format('HH:mm:ss')}</span>
+          <span>{moment(timeStart).format('DD/MM/YY HH:mm:ss')}</span>
         ),
       },
       {
@@ -114,7 +128,7 @@ const List: React.FC = () => {
       },
 
       {
-        title: 'Giờ kết thúc',
+        title: 'Thời gian nghỉ',
         dataIndex: 'timeBreak',
         key: 'timeBreak',
         ellipsis: true,
@@ -169,6 +183,7 @@ const List: React.FC = () => {
             type="primary"
             className="ml-10 flex-center"
             style={{ gap: '.2rem' }}
+            onClick={()=> navigate('/ship-schedule/create')}
           >
             {'Tạo mới '}
           </Button>

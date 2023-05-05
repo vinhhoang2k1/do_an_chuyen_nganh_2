@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { Button, Card, Col, Form, Input, Row } from 'antd'
+// import { useNavigate } from 'react-router-dom'
 
 import React from 'react'
 import './style.scss'
 import { useCreatetrainStationMutation } from '@apps/services/trainStationApi'
 
 const Create = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [createStation] = useCreatetrainStationMutation()
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
@@ -28,7 +28,6 @@ const Create = () => {
       // Xử lý lỗi
     }
     console.log('Success:', payload)
-    navigate('/station/list')
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -68,19 +67,7 @@ const Create = () => {
                 { required: true, message: 'Please select place station!' },
               ]}
             >
-              <Select
-                defaultValue="Hồ Chí Minh"
-                options={[
-                  {
-                    value: 'Hà Nội',
-                    label: 'Hà Nội',
-                  },
-                  {
-                    value: 'Hồ Chí Minh',
-                    label: 'Hồ Chí Minh',
-                  },
-                ]}
-              />
+              <Input />
             </Form.Item>
           </Col>
 

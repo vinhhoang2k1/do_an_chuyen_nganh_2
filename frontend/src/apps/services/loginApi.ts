@@ -17,11 +17,13 @@ interface Credentials {
   email: string;
   password: string;
 }
-interface LoginResponse {
+interface LoginResponseSuccess {
   success: boolean;
   message: string;
   accessToken: string;
 }
+
+
 
 export const loginApi = createApi({
   reducerPath: 'loginApi',
@@ -29,7 +31,7 @@ export const loginApi = createApi({
   tagTypes: ['loginApi'],
   endpoints: (build) => ({
 
-    login: build.mutation<LoginResponse, Credentials>({
+    login: build.mutation<LoginResponseSuccess, Credentials>({
       query: (credentials: Credentials) => ({
         url: `/auth/login`,
         method: 'POST',
@@ -39,7 +41,8 @@ export const loginApi = createApi({
       invalidatesTags: ['loginApi'],
     }),
 
-    register: build.mutation<LoginResponse, UserData>({
+
+    register: build.mutation<LoginResponseSuccess, UserData>({
       query: (userData: UserData) => ({
         url: `/auth/register`,
         method: 'POST',
