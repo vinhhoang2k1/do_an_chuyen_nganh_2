@@ -1,8 +1,17 @@
-#schedule {
-    .box-calendar {
-        max-height: 500px;
-        .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content  {
-            height: 30px;
-        }
-    }
-}
+// #schedule {
+//   .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content  {
+//     height: 30px;
+//     .ant-picker-calendar-header {
+//       margin-top: 30px;
+//       background-color: red;
+//     }
+//   }
+// }
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content {
+    height: 30px;
+  }
+  
+  .ant-picker-calendar-header {
+    margin-top: 20px;
+  }
