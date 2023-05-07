@@ -8,6 +8,12 @@ export const routeConfig = [
     isProtected: false,
   },
   {
+    id: 'RegisterPage',
+    path: '/register',
+    component: lazy(() => import('@pages/login/RegisterPage')),
+    isProtected: false,
+  },
+  {
     id: 'HomePage',
     path: '/',
     component: lazy(() => import('@pages/home/HomePage')),
@@ -62,9 +68,15 @@ export const routeConfig = [
     isProtected: true,
   },
   {
+    id: 'ship_schedule_list',
+    path: '/ship-schedule/list',
+    component: lazy(() => import('@pages/schedule')),
+    isProtected: true,
+  },
+  {
     id: 'ship_schedule_create',
     path: '/ship-schedule/create',
-    component: lazy(() => import('@pages/schedule')),
+    component: lazy(() => import('@pages/schedule/Create')),
     isProtected: true,
   },
  

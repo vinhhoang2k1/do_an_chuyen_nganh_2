@@ -1,9 +1,8 @@
 import React from 'react'
-
 import { useTranslation } from 'react-i18next'
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Input, Row } from 'antd'
-
+import { useNavigate } from 'react-router-dom'
 import { setCredentials } from '@apps/slices/authSlice'
 import { saveAccessToken } from '@utils/localStorage'
 import { useAppDispatch } from '@apps/hooks'
@@ -22,30 +21,32 @@ export default function LoginPage() {
   const appDispatch = useAppDispatch()
   const [loginMutation] = useLoginMutation();
 
+  const navigate = useNavigate()
   const onFinish = async (values: PayloadInterface) => {
     try {
       const response = await loginMutation({ email: values.email, password: values.password });
-      console.log('response:',response)
+      console.log('response:', response)
 
       if ('error' in response) {
         // handle error here
         console.error(response.error);
         return;
       }
-      const token:string = response.data.accessToken;
+      
+      const token: string = response.data.accessToken;
 
-        appDispatch(
-          setCredentials({
-            user: {
-              email: values.email,
-              password: values.password
-            },
-            access_token: token,
-          }),
-        )
+      appDispatch(
+        setCredentials({
+          user: {
+            email: values.email,
+            password: values.password
+          },
+          access_token: token,
+        }),
+      )
 
-        saveAccessToken(token)
-      }
+      saveAccessToken(token)
+    }
     catch (error) {
       console.log(error);
     }
@@ -86,10 +87,10 @@ export default function LoginPage() {
                 { required: true, message: trans('passwordErrorMessage') },
               ]}
             >
-              <Input
+              <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
                 placeholder={trans('password')}
+                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
               />
             </Form.Item>
             <Form.Item className="text-center" noStyle>
@@ -97,6 +98,8 @@ export default function LoginPage() {
                 <b>{trans('btnLogin')}</b>
               </Button>
             </Form.Item>
+            <p>Chưa có tài khoản?</p>
+            <a onClick={() => { navigate('/register') }}>Đăng ký</a>
           </Form>
         </Col>
       </Row>

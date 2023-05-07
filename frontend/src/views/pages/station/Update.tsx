@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
-import { useNavigate,useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import React from 'react'
 import './style.scss'
-import { useUpdatetrainStationMutation } from '@apps/services/trainStationApi'
+import { useUpdatetrainStationMutation, useGettrainStationQuery } from '@apps/services/trainStationApi'
 
 const Update = () => {
   const navigate = useNavigate()
   const stationId = useParams()
+  const num = Number(stationId.id)
+  const { data: { trainStation = [] } = {}, isLoading, isFetching } = useGettrainStationQuery(num)
+  console.log('train station:', trainStation, isLoading, isFetching)
 
   const [updateStation] = useUpdatetrainStationMutation()
   const now = new Date();
@@ -39,66 +42,78 @@ const Update = () => {
 
   return (
     <Card id="create-station" title="Sửa thông tin nhà ga" bordered={true}>
-      <Form
-        id="create-form"
-        name="create-user"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Row>
-          <Col span={12}>
-            <Form.Item
-              label="Tên nhà ga"
-              name="stationName"
-              rules={[
-                { required: true, message: 'Please input station name!' },
-              ]}
+      {
+        !isFetching && trainStation?.map((post) => {
+          return (
+            <Form
+            key={post.id}
+              id="create-form"
+              name="create-user"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              initialValues={{ 
+                remember: true,
+                stationName:post.stationName,
+                stationPlace:post.stationPlace
+               }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
             >
-              <Input />
-            </Form.Item>
-          </Col>
+              <Row>
+                <Col span={12}>
+                  <Form.Item
+                    label="Tên nhà ga"
+                    name="stationName"
+                    rules={[
+                      { required: true, message: 'Please input station name!' },
+                    ]}
+                  >
+                    <Input defaultValue={post.stationName} />
+                  </Form.Item>
+                </Col>
 
-          <Col span={12}>
-            <Form.Item
-              label="Địa chỉ ga"
-              name="stationPlace"
-              rules={[
-                { required: true, message: 'Please select place station!' },
-              ]}
-            >
-              <Select
-                defaultValue="Hồ Chí Minh"
-                options={[
-                  {
-                    value: 'Hà Nội',
-                    label: 'Hà Nội',
-                  },
-                  {
-                    value: 'Hồ Chí Minh',
-                    label: 'Hồ Chí Minh',
-                  },
-                ]}
-              />
-            </Form.Item>
-          </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Địa chỉ ga"
+                    name="stationPlace"
+                    rules={[
+                      { required: true, message: 'Please select place station!' },
+                    ]}
+                  >
+                    <Select
+                      defaultValue={post.stationPlace}
+                      options={[
+                        {
+                          value: 'Hà Nội',
+                          label: 'Hà Nội',
+                        },
+                        {
+                          value: 'Hồ Chí Minh',
+                          label: 'Hồ Chí Minh',
+                        },
+                      ]}
+                    />
+                  </Form.Item>
+                </Col>
 
 
-          <Col span={12}>
-            <Form.Item
-              className="btn-submit"
-              wrapperCol={{ offset: 8, span: 16 }}
-            >
-              <Button type="primary" htmlType="submit">
-                Xác nhận
-              </Button>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+                <Col span={12}>
+                  <Form.Item
+                    className="btn-submit"
+                    wrapperCol={{ offset: 8, span: 16 }}
+                  >
+                    <Button type="primary" htmlType="submit">
+                      Xác nhận
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form>
+          )
+        })
+      }
+
     </Card>
   )
 }
