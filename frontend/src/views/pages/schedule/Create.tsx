@@ -51,29 +51,6 @@ const Create = () => {
                 autoComplete="off"
             >
                 <Row>
-                    {/* <Col span={12}>
-                        <Form.Item
-                            label="Số hiệu tàu"
-                            name="trainNumber"
-                            rules={[
-                                { required: true, message: 'Please input train number!' },
-                            ]}
-                        >
-                            <Select>
-                                {trains.map((train) => {
-                                    if (train.status === 1) {
-                                        return (
-                                            <Select.Option key={train.id}>
-                                                {train.trainNumber}
-                                            </Select.Option>
-                                        );
-                                    }
-                                })}
-
-                            </Select>
-                        </Form.Item>
-                    </Col> */}
-
                     <Col span={12}>
                         <Form.Item
                             label="Ga bắt dầu"
@@ -157,7 +134,7 @@ const Create = () => {
                         <Form.Item
                             className="btn-submit"
                             wrapperCol={{ offset: 8, span: 16 }}
-                            
+
                         >
                             <Button type="primary" htmlType="submit">
                                 Xác nhận
