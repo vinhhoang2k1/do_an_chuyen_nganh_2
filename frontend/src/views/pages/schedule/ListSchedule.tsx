@@ -1,23 +1,64 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 // import { useNavigate } from 'react-router-dom'
-
+import { useEffect } from 'react'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
+import { Moment } from 'moment'
 
 import { useGetSchedulesQuery, useDeleteScheduleMutation } from '@apps/services/scheduleApi'
+interface ScheduleData {
+  id: number;
+  trainId: number;
+  startStationId: number;
+  endStationId: number;
+  timeStart: Date;
+  timeRunning: number;
+  timeBreak: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+interface ListScheduleProps {
+  selectedDate?: Moment | null;
+}
 
-const List: React.FC = () => {
-  const { t } = useTranslation()
-  const { data: { schedules = [] } = {} } = useGetSchedulesQuery();
+const List: React.FC<ListScheduleProps> = (props) => {
+  // console.log('đây chính là ngày đã chọn:',selectedDate)
   const navigate = useNavigate()
+  const { t } = useTranslation()
+  const { selectedDate } = props;
   const [deleteSchedule] = useDeleteScheduleMutation()
 
+  // if (selectedDate) {
+  //   const dateString = selectedDate.format('YYYY-MM-DD');
+  //   console.log('dây là ngày đã chọn:', dateString)
+  // }
+
+  const { data: { schedules = [] } = {} } = useGetSchedulesQuery();
+
+
+
+  const [list, setList] = useState<ScheduleData[]>([]);
+
+  useEffect(() => {
+    setList(schedules);
+  }, []);
+
+  useEffect(() => {
+    if (!selectedDate) return; // Nếu không có ngày được chọn thì không làm gì cả
+
+    const dateString = selectedDate.format('YYYY-MM-DD');
+
+    // Lọc ra danh sách các lịch trình có startTime bằng selectedDate
+    const newFilteredSchedules = schedules.filter(schedule => moment(schedule.timeStart).format('YYYY-MM-DD') === dateString);
+
+    setList(newFilteredSchedules);
+  }, [selectedDate, schedules]);
   // const navigate = useNavigate()
 
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
@@ -94,21 +135,21 @@ const List: React.FC = () => {
             {_}
           </span>
         ),
-        width:100
+        width: 100
       },
       {
         title: 'Ga bắt đầu',
         dataIndex: 'startStationId',
         key: 'startStationId',
         ellipsis: true,
-        
+
       },
       {
         title: 'Ga kết thúc',
         dataIndex: 'endStationId',
         key: 'endStationId',
         ellipsis: true,
-        
+
       },
       {
         title: 'Ngày khởi hành ',
@@ -124,7 +165,7 @@ const List: React.FC = () => {
         dataIndex: 'timeRunning',
         key: 'timeRunning',
         ellipsis: true,
-        
+
       },
 
       {
@@ -170,9 +211,10 @@ const List: React.FC = () => {
   // }, [isLoading, disPatch, isFetching])
   return (
     <>
+
       <GridDataTable
         columns={columns}
-        data={schedules}
+        data={list}
         title={'Lịch chuyến tàu chạy'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page
@@ -183,7 +225,7 @@ const List: React.FC = () => {
             type="primary"
             className="ml-10 flex-center"
             style={{ gap: '.2rem' }}
-            onClick={()=> navigate('/ship-schedule/create')}
+            onClick={() => navigate('/ship-schedule/create')}
           >
             {'Tạo mới '}
           </Button>
