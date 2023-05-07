@@ -104,16 +104,6 @@ const Create = () => {
                 </Form.Item>
               </Col>
 
-              {/* <Col span={12} style={{ justifyContent: 'center' }}>
-                <Form.Item
-                  label="Phòng Ban"
-                  name="department"
-                  rules={[{ required: true, message: 'Please input your username!' }]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col> */}
-
               <Col span={12}>
                 <Form.Item
                   label="Phòng ban"
@@ -121,12 +111,12 @@ const Create = () => {
                   rules={[{ required: true, message: 'Please input your department!' }]}
                 >
                   <Select
-                    defaultValue="Nhân viên phòng marketing"
+                    // defaultValue="Nhân viên phòng marketing"
                     // onChange={handleChange}
                     options={[
                       { value: 'Nhân viên phòng sale', label: 'Nhân viên phòng sale' },
                       { value: 'Nhân viên phòng marketing', label: 'Nhân viên phòng  marketing' },
-                      { value: 'disabled', label: 'Disabled', disabled: true },
+                      // { value: 'disabled', label: 'Disabled', disabled: true },
                     ]}
                   />
                 </Form.Item>

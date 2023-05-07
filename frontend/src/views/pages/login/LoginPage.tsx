@@ -10,6 +10,8 @@ import { useLoginMutation } from '@apps/services/loginApi'
 import logo from '@images/5.jpeg'
 
 import './style.scss'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 interface PayloadInterface {
   email: string
@@ -30,9 +32,10 @@ export default function LoginPage() {
       if ('error' in response) {
         // handle error here
         console.error(response.error);
+        toast.error(response.error.data.message)
         return;
       }
-      
+
       const token: string = response.data.accessToken;
 
       appDispatch(
@@ -54,6 +57,7 @@ export default function LoginPage() {
 
   return (
     <article id="login-page">
+      <ToastContainer />
       <Row justify="center" className="w-100 mb-90">
         <Col span={8}>
           <Form
