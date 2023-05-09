@@ -7,6 +7,11 @@ import './style.scss'
 const Schedule = () => {
   const [open, setOpen] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Moment | null>(null)
+
+  const onSelect = (value: Moment) => {
+    setSelectedDate(value)
+  }
 
   const showModal = () => {
     setOpen(true)
@@ -39,7 +44,7 @@ const Schedule = () => {
               confirmLoading={confirmLoading}
               onCancel={handleCancel}
             >
-              <Calendar onPanelChange={onPanelChange} />
+              <Calendar onSelect={onSelect} onPanelChange={onPanelChange} />
             </Modal>
           </div>
         </Col>
@@ -49,7 +54,12 @@ const Schedule = () => {
             <Button type="primary" onClick={showModal}>
               Chọn ngày
             </Button>
-            <ListSchedule />
+            {selectedDate && (
+              <div>
+                Ngày được chọn: {selectedDate.format('DD/MM/YYYY')}
+              </div>
+            )}
+            <ListSchedule selectedDate={selectedDate} />
           </Card>
         </Col>
       </Row>
