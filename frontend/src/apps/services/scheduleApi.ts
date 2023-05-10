@@ -18,7 +18,14 @@ interface Response {
     message: string;
     results: number;
     schedules: ScheduleData[];
-  }
+}
+
+interface ResponseOne {
+    success: boolean;
+    message: string;
+    results: number;
+    schedule: ScheduleData[];
+}
 
 export const scheduleApi = createApi({
     reducerPath: 'scheduleApi',
@@ -54,11 +61,32 @@ export const scheduleApi = createApi({
             providesTags: ['scheduleApi'],
         }),
 
+        getSchedule: build.query<ResponseOne, number>({
+            query: (scheduleId:number) => ({
+                url: `/schedule/${scheduleId}`,
+                method: 'GET',
+                access_token: readAccessToken(),
+            }),
+            providesTags: ['scheduleApi'],
+        }),
+
+        updateSchedule: build.mutation({
+            query: (scheduleData: ScheduleData) => ({
+                url: `/train-station/${scheduleData.id}`,
+                method: 'PUT',
+                body: scheduleData,
+                access_token: readAccessToken(),
+            }),
+            invalidatesTags: ['scheduleApi'],
+        }),
+
     }),
 })
 
 export const {
     useDeleteScheduleMutation,
     useCreateScheduleMutation,
-    useGetSchedulesQuery
+    useGetSchedulesQuery,
+    useGetScheduleQuery,
+    useUpdateScheduleMutation
 } = scheduleApi;

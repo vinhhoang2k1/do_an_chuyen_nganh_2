@@ -1,32 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 // import { useNavigate } from 'react-router-dom'
-
+import moment from 'moment'
+import { DatePicker } from 'antd'
 import React from 'react'
 import './style.scss'
 import { useCreateScheduleMutation } from '@apps/services/scheduleApi'
 import { useGettrainStationsQuery } from '@apps/services/trainStationApi'
-// import { useGettrainsQuery } from '@apps/services/trainApi'
+import { useGettrainsQuery } from '@apps/services/trainApi'
+
 const Create = () => {
     // const navigate = useNavigate()
     const [createSchedule] = useCreateScheduleMutation();
 
-    // const { data: { trains = [] } = {} } = useGettrainsQuery()
-    const { data: { trains = [] } = {} } = useGettrainStationsQuery()
+    const { data: { trains = [] } = {} } = useGettrainsQuery()
+    const { data: { trainStations = [] } = {} } = useGettrainStationsQuery()
 
     const now = new Date();
     const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
     const onFinish = async (values: any) => {
+        const { timeStart, ...otherValues } = values;
+        const formattedTimeStart = moment(timeStart).format("YYYY-MM-DDTHH:mm:ss.SSS"); // Định dạng lại giá trị của timeStart
         const payload = {
-            ...values,
+            ...otherValues, // Sử dụng các trường khác
             createdAt: formattedDate,
             updatedAt: formattedDate,
+            timeStart: formattedTimeStart
         };
         try {
 
             await createSchedule(payload).unwrap()
-            // Xóa thành công
+            toast.success('Tạo lịch trình thành công')
         } catch (err) {
             console.error(err)
             // Xử lý lỗi
@@ -40,6 +47,7 @@ const Create = () => {
 
     return (
         <Card id="create-train" title="Tạo mới lịch trình" bordered={true}>
+            <ToastContainer/>
             <Form
                 id="create-form"
                 name="create-user"
@@ -53,6 +61,28 @@ const Create = () => {
                 <Row>
                     <Col span={12}>
                         <Form.Item
+                            label="Số hiệu tàu"
+                            name="trainId"
+                            rules={[
+                                { required: true, message: 'Please select train number!' },
+                            ]}
+                        >
+                            <Select>
+                                {trains.map((train) => {
+                                    if (train.status === 1) {
+                                        return (
+                                            <Select.Option key={train.id} value={train.id}>
+                                                {train.trainNumber}
+                                            </Select.Option>
+                                        );
+                                    }
+                                })}
+
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
                             label="Ga bắt dầu"
                             name="startStationId"
                             rules={[
@@ -60,10 +90,10 @@ const Create = () => {
                             ]}
                         >
                             <Select>
-                                {trains.map((station) => {
+                                {trainStations.map((station) => {
 
                                     return (
-                                        <Select.Option key={station.id}>
+                                        <Select.Option key={station.id} value={station.id}>
                                             {station.stationName}
                                         </Select.Option>
                                     );
@@ -78,13 +108,13 @@ const Create = () => {
                             label="Ga kết thúc"
                             name="endStationId"
                             rules={[
-                                { required: true, message: 'Please select start Station!' },
+                                { required: true, message: 'Please select end Station!' },
                             ]}
                         >
                             <Select>
-                                {trains.map((station) => {
+                                {trainStations.map((station) => {
                                     return (
-                                        <Select.Option key={station.id}>
+                                        <Select.Option key={station.id} value={station.id}>
                                             {station.stationName}
                                         </Select.Option>
                                     );
@@ -99,10 +129,10 @@ const Create = () => {
                             label="Ngày bắt dầu"
                             name="timeStart"
                             rules={[
-                                { required: true, message: 'Please select place station!' },
+                                { required: true, message: 'Please select time start!' },
                             ]}
                         >
-                            <Input />
+                            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                         </Form.Item>
                     </Col>
 
@@ -111,7 +141,7 @@ const Create = () => {
                             label="Thời gian chạy"
                             name="timeRunning"
                             rules={[
-                                { required: true, message: 'Please select place station!' },
+                                { required: true, message: 'Please select time running!' },
                             ]}
                         >
                             <Input />
@@ -123,7 +153,7 @@ const Create = () => {
                             label="Thòi gian nghỉ"
                             name="timeBreak"
                             rules={[
-                                { required: true, message: 'Please select place station!' },
+                                { required: true, message: 'Please select time break!' },
                             ]}
                         >
                             <Input />

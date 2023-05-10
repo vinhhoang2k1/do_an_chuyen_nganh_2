@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Button, Card, Col, Form, Input, Row, Select} from 'antd';
-import { useNavigate } from 'react-router-dom'
-
+// import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
 import "./style.scss";
 import { useCreateUserMutation } from '@apps/services/userApi';
 
 const Create = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [createUser] = useCreateUserMutation();
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
@@ -20,13 +21,12 @@ const Create = () => {
     try {
 
       await createUser(payload).unwrap()
-      // Xóa thành công
+      toast.success('Tạo người dùng thành công')
     } catch (err) {
       console.error(err)
       // Xử lý lỗi
     }
-    console.log('Success:', payload);
-    navigate('/user/list')
+    
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -51,7 +51,7 @@ const Create = () => {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-
+           <ToastContainer/>
             <Row>
               <Col span={12}>
                 <Form.Item

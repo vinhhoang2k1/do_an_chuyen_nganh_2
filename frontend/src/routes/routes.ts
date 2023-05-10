@@ -79,5 +79,11 @@ export const routeConfig = [
     component: lazy(() => import('@pages/schedule/Create')),
     isProtected: true,
   },
+  // {
+  //   id: 'ship_schedule_update',
+  //   path: '/ship-schedule/update/:id',
+  //   component: lazy(() => import('@pages/schedule/Update')),
+  //   isProtected: true,
+  // },
  
 ]

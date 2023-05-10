@@ -13,7 +13,7 @@ interface Response {
     success: boolean;
     message: string;
     results: number;
-    trains: trainStation[];
+    trainStations: trainStation[];
 }
 interface ResponseOne {
     success: boolean;

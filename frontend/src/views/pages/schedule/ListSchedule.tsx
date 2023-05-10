@@ -43,11 +43,11 @@ const List: React.FC<ListScheduleProps> = (props) => {
 
 
 
-  const [list, setList] = useState<ScheduleData[]>([]);
+  const [list, setList] = useState<ScheduleData[]>(schedules);
 
-  useEffect(() => {
-    setList(schedules);
-  }, []);
+  // useEffect(() => {
+  //   setList(schedules);
+  // }, []);
 
   useEffect(() => {
     if (!selectedDate) return; // Nếu không có ngày được chọn thì không làm gì cả
@@ -119,8 +119,8 @@ const List: React.FC<ListScheduleProps> = (props) => {
       },
       {
         title: 'Số ID tàu',
-        dataIndex: 'trainId',
-        key: 'trainId',
+        dataIndex: 'trainNumber',
+        key: 'trainNumber',
         ellipsis: true,
         render: (_) => (
           <span
@@ -139,15 +139,15 @@ const List: React.FC<ListScheduleProps> = (props) => {
       },
       {
         title: 'Ga bắt đầu',
-        dataIndex: 'startStationId',
-        key: 'startStationId',
+        dataIndex: 'startStation',
+        key: 'startStation',
         ellipsis: true,
 
       },
       {
         title: 'Ga kết thúc',
-        dataIndex: 'endStationId',
-        key: 'endStationId',
+        dataIndex: 'endStation',
+        key: 'endStation',
         ellipsis: true,
 
       },
@@ -185,7 +185,7 @@ const List: React.FC<ListScheduleProps> = (props) => {
                 color={'geekblue'}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  console.log('a')
+                  // () => navigate(`/ship-schedule/update/${value.id}`)
                 }}
               >
                 <EditOutlined />
