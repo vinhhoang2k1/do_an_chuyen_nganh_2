@@ -36,14 +36,14 @@ const createSingleTrainStation = async (req, res, next) => {
 
 const getAllTrainStation = async (req, res, next) => {
   try {
-    const trains = await getdataService.getData("Trainstations");
+    const trainStations = await getdataService.getData("Trainstations");
     return res
       .status(200)
       .json({
         success: true,
         message: 'Get all train station successfully',
-        results: trains.length,
-        trains
+        results: trainStations.length,
+        trainStations
       })
   } catch (error) {
     return res

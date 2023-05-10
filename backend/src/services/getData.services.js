@@ -42,7 +42,20 @@ const getData = (table, condition, limit) => {
   })
 }
 
+const getDataBySqlString = (sqlStr) => {
+    // return a Promise
+    return new Promise((resolve, reject) => {
+      dbConfig.query(sqlStr, (err, results) => {
+        if (err) {
+          reject(err);
+        };
+        resolve(results);
+      });
+    })
+}
+
 module.exports = {
-  getData
+  getData,
+  getDataBySqlString
 };
 

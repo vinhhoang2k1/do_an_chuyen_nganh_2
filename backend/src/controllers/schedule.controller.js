@@ -55,6 +55,33 @@ const getAllSchedule = async (req, res, next) => {
   }
 }
 
+const getAllScheduleAfterJoinTables = async (req, res, next) => {
+  try {
+    const schedules = await getdataService.getDataBySqlString(
+      `select Schedules.id, Trains.trainNumber, startStation.stationName as "startStation", endStation.stationName as "endStation", Schedules.timeStart, Schedules.timeRunning, Schedules.timeBreak
+      from Schedules 
+      inner join Trains on Schedules.trainId = Trains.id
+      inner join Trainstations as startStation on startStation.id = Schedules.startStationId
+      inner join Trainstations as endStation on endStation.id  = Schedules.endStationId `
+    )
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Get all schedule successfully',
+        results: schedules.length,
+        schedules
+      })
+  } catch (error) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Internal server error: ' + error,
+      })
+  }
+}
+
 const getScheduleById = async (req, res, next) => {
   try {
     const scheduleid = req.params.id;
@@ -64,7 +91,7 @@ const getScheduleById = async (req, res, next) => {
       .json({
         success: true,
         message: 'Get schedule by id successfully',
-        train
+        schedule
       })
   } catch (error) {
     return res
@@ -124,6 +151,7 @@ const deleteSingleSchedule = async (req, res, next) => {
 module.exports = {
   createSingleSchedule,
   getAllSchedule,
+  getAllScheduleAfterJoinTables,
   getScheduleById,
   updateSingleSchedule,
   deleteSingleSchedule
