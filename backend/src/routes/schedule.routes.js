@@ -54,7 +54,7 @@ router.post("/", authMiddleware.verifyToken, scheduleController.createSingleSche
  *               items:
  *                 $ref: '#/components/schemas/Schedules'
  */
-router.get("/", authMiddleware.verifyToken, scheduleController.getAllSchedule);
+router.get("/", authMiddleware.verifyToken, scheduleController.getAllScheduleAfterJoinTables);
 
 /**
  * @swagger

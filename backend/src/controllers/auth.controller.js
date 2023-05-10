@@ -90,6 +90,7 @@ const login = async (req, res, next) => {
         .json({
           success: false,
           message: "Email or password is not correct",
+          accessToken: null
         })
     }
     const isPasswordValid = bcrypt.compareSync(password, adminExisted.password);
@@ -99,6 +100,7 @@ const login = async (req, res, next) => {
         .json({
           success: false,
           message: "Email or password is not correct",
+          accessToken: null
         })
     }
 
