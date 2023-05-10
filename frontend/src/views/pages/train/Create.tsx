@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
-import { useNavigate } from 'react-router-dom'
-
+// import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react'
 import { useCreatetrainMutation } from '@apps/services/trainApi'
 import './style.scss'
 const Create = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [createTrain] = useCreatetrainMutation();
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
@@ -20,13 +21,12 @@ const Create = () => {
     try {
 
       await createTrain(payload).unwrap()
-      // Xóa thành công
+      toast.success('tạo tàu thành công')
     } catch (err) {
       console.error(err)
       // Xử lý lỗi
     }
-    console.log('Success', payload)
-    navigate('/train/list')
+    
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -45,6 +45,7 @@ const Create = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        <ToastContainer/>
         <Row>
           <Col span={12}>
             <Form.Item

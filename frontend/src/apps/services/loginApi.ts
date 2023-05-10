@@ -23,8 +23,6 @@ interface LoginResponseSuccess {
   accessToken: string;
 }
 
-
-
 export const loginApi = createApi({
   reducerPath: 'loginApi',
   baseQuery: baseQueryWithReauth,

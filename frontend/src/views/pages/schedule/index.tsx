@@ -56,7 +56,7 @@ const Schedule = () => {
             </Button>
             {selectedDate && (
               <div>
-                Ngày được chọn: {selectedDate.format('DD/MM/YYYY')}
+                Lịch trình trong ngày: {selectedDate.format('DD/MM/YYYY')}
               </div>
             )}
             <ListSchedule selectedDate={selectedDate} />

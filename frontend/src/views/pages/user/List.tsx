@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
 
-import { useGetUsersQuery, useDeleteUserMutation, useUpdateUserMutation } from '@apps/services/userApi'
+import { useGetUsersQuery, useDeleteUserMutation } from '@apps/services/userApi'
 
 import './style.scss'
 
@@ -117,7 +117,7 @@ const List: React.FC = () => {
               <Tag
                 color={'geekblue'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => useUpdateUserMutation(value)}
+                // onClick={() => useUpdateUserMutation(value)}
               >
                 <EditOutlined />
               </Tag>

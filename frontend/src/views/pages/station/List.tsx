@@ -17,7 +17,7 @@ import {
 
 const List: React.FC = () => {
   const { t } = useTranslation()
-  const { data: { trains = [] } = {} } = useGettrainStationsQuery();
+  const { data: { trainStations = [] } = {} } = useGettrainStationsQuery();
 
   const [deleteStation] = useDeletetrainStationMutation()
   const navigate = useNavigate()
@@ -158,7 +158,7 @@ const List: React.FC = () => {
     <>
       <GridDataTable
         columns={columns}
-        data={trains}
+        data={trainStations}
         title={'Danh sách nhà ga'}
         total={
           // listFloors?.pagination?.total_pages * listFloors?.pagination?.per_page
