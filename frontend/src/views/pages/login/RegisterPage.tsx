@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Button, Card, Col, Form, Input, Row, Select} from 'antd';
-import { useNavigate } from 'react-router-dom'
+import {
+  Button, Card, Col, Form, Input, Row, Select
+} from 'antd';
 
+import { setCredentials } from '@apps/slices/authSlice'
+import { saveAccessToken } from '@utils/localStorage'
+import { useAppDispatch } from '@apps/hooks'
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import "./style.scss";
-import { useCreateUserMutation } from '@apps/services/userApi';
-
-const Create = () => {
+import { useRegisterMutation } from '@apps/services/loginApi';
+const RegisterPage = () => {
+  const [Register] = useRegisterMutation();
+  const appDispatch = useAppDispatch()
   const navigate = useNavigate()
-  const [createUser] = useCreateUserMutation();
+
   const now = new Date();
   const formattedDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
+
   const onFinish = async (values: any) => {
     const payload = {
       ...values,
@@ -18,15 +25,30 @@ const Create = () => {
       updatedAt: formattedDate,
     };
     try {
+      const response = await Register(payload).unwrap();
+      console.log('response:', response)
+      if ('error' in response) {
+        // handle error here
+        console.error(response.error);
+        return;
+      }
+      const token: string = response.accessToken;
+      appDispatch(
+        setCredentials({
+          user: {
+            email: values.email,
+            password: values.password
+          },
+          access_token: token,
+        }),
+      )
 
-      await createUser(payload).unwrap()
-      // Xóa thành công
+      saveAccessToken(token)
+
     } catch (err) {
       console.error(err)
       // Xử lý lỗi
     }
-    console.log('Success:', payload);
-    navigate('/user/list')
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -38,13 +60,13 @@ const Create = () => {
   // };
 
   return (
-    <Row id='create-user' gutter={16}>
-      <Col span={24}>
-        <Card title="Tạo người dùng" bordered={true}>
+    <Row id='login-page' gutter={16} justify="center" className="w-100 mb-90">
+      <Col span={10}>
+        <Card title="Register" bordered={true}>
           <Form
             id="create-form"
             name="create-user"
-            labelCol={{ span: 8 }}
+            labelCol={{ span: 5 }}
             wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
@@ -53,16 +75,16 @@ const Create = () => {
           >
 
             <Row>
-              <Col span={12}>
+              <Col span={24}>
                 <Form.Item
                   label="Họ tên"
                   name="fullName"
-                  rules={[{ required: true, message: 'Please input your fullname!' }]}
+                  rules={[{ required: true, message: 'Please input your fullName!' }]}
                 >
                   <Input />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col span={24}>
 
                 <Form.Item
                   label="CCCD/CMND"
@@ -73,7 +95,7 @@ const Create = () => {
                 </Form.Item>
               </Col>
 
-              <Col span={12}>
+              <Col span={24}>
                 <Form.Item
                   label="Email"
                   name="email"
@@ -83,7 +105,7 @@ const Create = () => {
                 </Form.Item>
               </Col>
 
-              <Col span={12}>
+              <Col span={24}>
                 <Form.Item
                   label="Mật khẩu"
                   name="password"
@@ -94,7 +116,7 @@ const Create = () => {
               </Col>
 
 
-              <Col span={12} style={{ justifyContent: 'center' }}>
+              <Col span={24} style={{ justifyContent: 'center' }}>
                 <Form.Item
                   label="Số điện thoại"
                   name="phoneNumber"
@@ -104,7 +126,7 @@ const Create = () => {
                 </Form.Item>
               </Col>
 
-              <Col span={12}>
+              <Col span={24}>
                 <Form.Item
                   label="Phòng ban"
                   name="department"
@@ -133,13 +155,20 @@ const Create = () => {
               </Col>
 
 
-              <Col span={12}>
-                <Form.Item className="btn-submit" wrapperCol={{ offset: 8, span: 16 }}>
+              <Col span={24}>
+                <Form.Item className="btn-submit" wrapperCol={{ offset: 10, span: 16 }}>
                   <Button type="primary" htmlType="submit">
-                    Tạo người dùng
+                    Register
                   </Button>
                 </Form.Item>
+              </Col>
 
+              <Col span={24}>
+                <Form.Item className="btn-submit" wrapperCol={{ offset: 8, span: 16 }}>
+                  <p>Đã có tài khoản? 
+                    <a onClick={() => { navigate('/login') }}> Đăng nhập</a>
+                  </p>
+                </Form.Item>
               </Col>
             </Row>
           </Form>
@@ -149,6 +178,4 @@ const Create = () => {
   )
 }
 
-
-
-export default Create
+export default RegisterPage

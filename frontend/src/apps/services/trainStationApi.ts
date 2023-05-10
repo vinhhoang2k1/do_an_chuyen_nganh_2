@@ -14,7 +14,12 @@ interface Response {
     message: string;
     results: number;
     trains: trainStation[];
-  }
+}
+interface ResponseOne {
+    success: boolean;
+    message: string;
+    trainStation: trainStation[];
+}
 
 
 export const trainStationApi = createApi({
@@ -25,6 +30,15 @@ export const trainStationApi = createApi({
         gettrainStations: build.query<Response, void>({
             query: () => ({
                 url: `/train-station`,
+                method: 'GET',
+                access_token: readAccessToken(),
+            }),
+            providesTags: ['trainStationApi'],
+        }),
+
+        gettrainStation: build.query<ResponseOne, number>({
+            query: (stationId:number) => ({
+                url: `/train-station/${stationId}`,
                 method: 'GET',
                 access_token: readAccessToken(),
             }),
@@ -67,5 +81,6 @@ export const {
     useGettrainStationsQuery,
     useUpdatetrainStationMutation,
     useDeletetrainStationMutation,
-    useCreatetrainStationMutation
+    useCreatetrainStationMutation,
+    useGettrainStationQuery
 } = trainStationApi;

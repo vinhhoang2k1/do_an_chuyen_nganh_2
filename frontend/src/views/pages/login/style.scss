@@ -1,41 +1,72 @@
+// Colors
+$primary-color: #1890ff;
+$background-color: #f0f2f5;
+
+// Fonts
+$font-size: 14px;
+$font-family: Arial, sans-serif;
+
+// Login page styles
 #login-page {
-  height: 100vh;
   display: flex;
+  justify-content: center;
   align-items: center;
-  background: #f7f4f5;
-
-  .login-form {
-    padding: 60px 30px;
-    background: #ff5f3b;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    height: 500px;
-
-    .logo {
-      text-align: center;
-      margin-bottom: 20px;
-
-      img {
-        max-width: 30%;
-      }
-      h2 {
-        color: #f7f4f5;
-      }
-    }
-    input {
-      height: 40px;
-    }
-    .login-btn {
-      background: #f8f6f4;
-      color: #FF5733;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      height: 40px;
-    }
-
-  }
+  min-height: 100vh;
+  background-color: $background-color;
 }
-.ant-form-item-explain-error{
-  color: #f7f4f5;
+
+.login-form {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+
+  .logo {
+    margin-bottom: 30px;
+    text-align: center;
+
+    img {
+      height: 80px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: $primary-color;
+      margin: 0;
+      font-weight: bold;
+      font-family: $font-family;
+    }
+  }
+
+  // .site-form-item-icon {
+  //   color: rgba(0, 0, 0, 0.25);
+  // }
+
+  .login-btn {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  .ant-form-item-control-input-content {
+    input {
+      font-size: $font-size;
+      font-family: $font-family;
+      padding: 10px;
+      height: 40px;
+      border: none;
+      background-color: white;
+
+      
+    }
+  }
+  .text-center {
+    text-align: center;
+  }
 }

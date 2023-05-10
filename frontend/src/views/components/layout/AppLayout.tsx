@@ -44,6 +44,7 @@ const items: MenuProps['items'] = [
     getMenuItem('Danh sách nhà ga', '/station/list'),
   ]),
   getMenuItem('Quản lý lịch trình tàu', '/ship-schedule', <RocketOutlined />, [
+    getMenuItem('Danh sách lịch trình tàu', '/ship-schedule/list'),
     getMenuItem('Tạo mới lịch trình tàu', '/ship-schedule/create'),
   ]),
 ]

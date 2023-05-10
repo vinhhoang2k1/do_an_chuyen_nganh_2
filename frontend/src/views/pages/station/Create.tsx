@@ -69,7 +69,7 @@ const Create = () => {
               ]}
             >
               <Select
-                defaultValue="Hồ Chí Minh"
+                // defaultValue="Hồ Chí Minh"
                 options={[
                   {
                     value: 'Hà Nội',
