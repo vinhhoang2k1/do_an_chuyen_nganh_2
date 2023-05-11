@@ -3,6 +3,8 @@ import { Button, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo } from 'react'
 import moment from 'moment'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -56,7 +58,7 @@ const List: React.FC = () => {
     // setVisibleDeleteConfirm(true)
     try {
       await deleteTrain(id).unwrap()
-      // Xóa thành công
+      toast.success('delete sucessful')
     } catch (err) {
       console.error(err)
       // Xử lý lỗi
@@ -159,6 +161,7 @@ const List: React.FC = () => {
   // }, [isLoading, disPatch, isFetching])
   return (
     <>
+    <ToastContainer/>
       <GridDataTable
         columns={columns}
         data={trains}
