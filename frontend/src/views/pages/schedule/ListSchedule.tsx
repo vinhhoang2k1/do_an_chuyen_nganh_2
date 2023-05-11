@@ -3,11 +3,13 @@ import { Button, Space, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo, useState } from 'react'
 import moment from 'moment'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 // import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { DeleteOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
 import { Moment } from 'moment'
 
@@ -43,11 +45,11 @@ const List: React.FC<ListScheduleProps> = (props) => {
 
 
 
-  const [list, setList] = useState<ScheduleData[]>(schedules);
+  const [list, setList] = useState<ScheduleData[]>([]);
 
-  // useEffect(() => {
-  //   setList(schedules);
-  // }, []);
+  useEffect(() => {
+    setList(schedules);
+  }, [schedules]);
 
   useEffect(() => {
     if (!selectedDate) return; // Nếu không có ngày được chọn thì không làm gì cả
@@ -94,7 +96,7 @@ const List: React.FC<ListScheduleProps> = (props) => {
     // setVisibleDeleteConfirm(true)
     try {
       await deleteSchedule(id).unwrap()
-      // Xóa thành công
+      toast.success('Delete success')
     } catch (err) {
       console.error(err)
       // Xử lý lỗi
@@ -179,9 +181,9 @@ const List: React.FC<ListScheduleProps> = (props) => {
         title: "Hành động",
         key: 'action',
         render: (_, value: any) => (
-          <Space size="middle">
+          <Space size="middle" style={{width:'30px'}}>
             <Tooltip placement="bottom" title={t('update')}>
-              <Tag
+              {/* <Tag
                 color={'geekblue'}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
@@ -189,13 +191,14 @@ const List: React.FC<ListScheduleProps> = (props) => {
                 }}
               >
                 <EditOutlined />
-              </Tag>
+              </Tag> */}
             </Tooltip>
-            <Tooltip placement="bottom" title={t('delete')}>
+            <Tooltip placement="bottom" title={t('delete')} >
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
                 onClick={() => handleOpenDeleteConfirm(value.id)}
+                
               >
                 <DeleteOutlined />
               </Tag>
@@ -211,7 +214,7 @@ const List: React.FC<ListScheduleProps> = (props) => {
   // }, [isLoading, disPatch, isFetching])
   return (
     <>
-
+     <ToastContainer/>
       <GridDataTable
         columns={columns}
         data={list}

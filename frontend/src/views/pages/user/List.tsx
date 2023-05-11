@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Space, Tag, Tooltip } from 'antd'
+import { Button,
+  //  Space, Tag, Tooltip 
+  } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+// import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import GridDataTable from '@components/grid_data/GridDataTable'
 
-import { useGetUsersQuery, useDeleteUserMutation } from '@apps/services/userApi'
+import { useGetUsersQuery, } from '@apps/services/userApi'
 
 import './style.scss'
 
@@ -18,7 +20,7 @@ const List: React.FC = () => {
   const { data: { admins = [] } = {} } = useGetUsersQuery();
   console.log('list user:', admins);
 
-  const [deleteUser] = useDeleteUserMutation()
+  // const [deleteUser] = useDeleteUserMutation()
   const navigate = useNavigate()
 
   // const [visibleDeleteConfirm, setVisibleDeleteConfirm] = useState(false)
@@ -49,17 +51,17 @@ const List: React.FC = () => {
     },
     [],
   )
-  const handleOpenDeleteConfirm = async (id: number) => {
-    // setSeletedDelete(value)
-    // setVisibleDeleteConfirm(true)
-    try {
-      await deleteUser(id).unwrap()
-      // Xóa thành công
-    } catch (err) {
-      console.error(err)
-      // Xử lý lỗi
-    }
-  }
+  // const handleOpenDeleteConfirm = async (id: number) => {
+  //   // setSeletedDelete(value)
+  //   // setVisibleDeleteConfirm(true)
+  //   try {
+  //     await deleteUser(id).unwrap()
+  //     // Xóa thành công
+  //   } catch (err) {
+  //     console.error(err)
+  //     // Xử lý lỗi
+  //   }
+  // }
 
   // const handleCancelDeleteConfirm = () => {
   // setVisibleDeleteConfirm(false)
@@ -109,31 +111,37 @@ const List: React.FC = () => {
         ellipsis: true,
       },
       {
-        title: "Hành động",
-        key: 'action',
-        render: (_, value: any) => (
-          <Space size="middle">
-            <Tooltip placement="bottom" title={t('update')}>
-              <Tag
-                color={'geekblue'}
-                style={{ cursor: 'pointer' }}
-                // onClick={() => useUpdateUserMutation(value)}
-              >
-                <EditOutlined />
-              </Tag>
-            </Tooltip>
-            <Tooltip placement="bottom" title={t('delete')}>
-              <Tag
-                color={'red'}
-                style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value.id)}
-              >
-                <DeleteOutlined />
-              </Tag>
-            </Tooltip>
-          </Space>
-        ),
+        title: 'Phòng ban',
+        dataIndex: 'phoneNumber',
+        key: 'phoneNumber',
+        ellipsis: true,
       },
+      // {
+      //   title: "Hành động",
+      //   key: 'action',
+      //   render: (_, value: any) => (
+      //     <Space size="middle">
+      //       <Tooltip placement="bottom" title={t('update')}>
+      //         <Tag
+      //           color={'geekblue'}
+      //           style={{ cursor: 'pointer' }}
+      //           // onClick={() => useUpdateUserMutation(value)}
+      //         >
+      //           <EditOutlined />
+      //         </Tag>
+      //       </Tooltip>
+      //       <Tooltip placement="bottom" title={t('delete')}>
+      //         <Tag
+      //           color={'red'}
+      //           style={{ cursor: 'pointer' }}
+      //           onClick={() => handleOpenDeleteConfirm(value.id)}
+      //         >
+      //           <DeleteOutlined />
+      //         </Tag>
+      //       </Tooltip>
+      //     </Space>
+      //   ),
+      // },
     ]
   }, [t])
 
