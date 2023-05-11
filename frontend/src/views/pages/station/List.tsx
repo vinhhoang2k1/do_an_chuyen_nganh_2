@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Space, Tag, Tooltip } from 'antd'
+import { Button, Space, Tag, Tooltip, Modal } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,6 +18,18 @@ import {
 } from '@apps/services/trainStationApi'
 
 const List: React.FC = () => {
+  const [deleteId, setDeleteId] = useState(1)
+  const [open, setOpen] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+
+  const showModal = () => {
+    setOpen(true)
+  }
+  const handleCancel = () => {
+    console.log('Clicked cancel button')
+    setOpen(false)
+  }
+
   const { t } = useTranslation()
   const { data: { trainStations = [] } = {} } = useGettrainStationsQuery();
 
@@ -56,6 +68,7 @@ const List: React.FC = () => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
     console.log('dây là id:', id);
+    setConfirmLoading(true)
     try {
       await deleteStation(id).unwrap()
       toast.success('Delete successfull')
@@ -63,6 +76,10 @@ const List: React.FC = () => {
       console.error(err)
       // Xử lý lỗi
     }
+    setTimeout(() => {
+      setOpen(false)
+      setConfirmLoading(false)
+    }, 1000)
   }
 
   // const handleCancelDeleteConfirm = () => {
@@ -142,7 +159,10 @@ const List: React.FC = () => {
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value.id)}
+                onClick={() => {
+                  setDeleteId(value.id)
+                  showModal()
+                }}
               >
                 <DeleteOutlined />
               </Tag>
@@ -159,6 +179,14 @@ const List: React.FC = () => {
   return (
     <>
       <ToastContainer />
+      <Modal
+        open={open}
+        onOk={() => handleOpenDeleteConfirm(deleteId)}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <h3>Bạn có muốn xoá giá trị này ?</h3>
+      </Modal>
       <GridDataTable
         columns={columns}
         data={trainStations}

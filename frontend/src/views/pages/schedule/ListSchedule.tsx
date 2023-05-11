@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Space, Tag, Tooltip } from 'antd'
+import { Button, Space, Tag, Tooltip,Modal } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useCallback, useMemo, useState } from 'react'
 import moment from 'moment'
@@ -30,6 +30,18 @@ interface ListScheduleProps {
 }
 
 const List: React.FC<ListScheduleProps> = (props) => {
+
+  const [deleteId, setDeleteId] = useState(1)
+  const [open, setOpen] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+
+  const showModal = () => {
+    setOpen(true)
+  }
+  const handleCancel = () => {
+    console.log('Clicked cancel button')
+    setOpen(false)
+  }
   // console.log('đây chính là ngày đã chọn:',selectedDate)
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -94,6 +106,7 @@ const List: React.FC<ListScheduleProps> = (props) => {
   const handleOpenDeleteConfirm = async (id: number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
+    setConfirmLoading(true)
     try {
       await deleteSchedule(id).unwrap()
       toast.success('Delete success')
@@ -101,6 +114,10 @@ const List: React.FC<ListScheduleProps> = (props) => {
       console.error(err)
       // Xử lý lỗi
     }
+    setTimeout(() => {
+      setOpen(false)
+      setConfirmLoading(false)
+    }, 1000)
   }
 
   // const handleCancelDeleteConfirm = () => {
@@ -181,7 +198,7 @@ const List: React.FC<ListScheduleProps> = (props) => {
         title: "Hành động",
         key: 'action',
         render: (_, value: any) => (
-          <Space size="middle" style={{width:'30px'}}>
+          <Space size="middle" style={{ width: '30px' }}>
             <Tooltip placement="bottom" title={t('update')}>
               {/* <Tag
                 color={'geekblue'}
@@ -197,8 +214,11 @@ const List: React.FC<ListScheduleProps> = (props) => {
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value.id)}
-                
+                onClick={() => {
+                  setDeleteId(value.id)
+                  showModal()
+                }}
+
               >
                 <DeleteOutlined />
               </Tag>
@@ -214,7 +234,15 @@ const List: React.FC<ListScheduleProps> = (props) => {
   // }, [isLoading, disPatch, isFetching])
   return (
     <>
-     <ToastContainer/>
+      <ToastContainer />
+      <Modal
+        open={open}
+        onOk={() => handleOpenDeleteConfirm(deleteId)}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <h3>Bạn có muốn xoá giá trị này ?</h3>
+      </Modal>
       <GridDataTable
         columns={columns}
         data={list}

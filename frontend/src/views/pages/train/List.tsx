@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Space, Tag, Tooltip } from 'antd'
+import { Button, Space, Tag, Tooltip, Modal } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,6 +18,18 @@ import {
 } from '@apps/services/trainApi'
 
 const List: React.FC = () => {
+  const [deleteId,setDeleteId] = useState(1)
+  const [open, setOpen] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+
+  const showModal = () => {
+    setOpen(true)
+  }
+  const handleCancel = () => {
+    console.log('Clicked cancel button')
+    setOpen(false)
+  }
+
   const { t } = useTranslation()
   const { data: { trains = [] } = {} } = useGettrainsQuery();
 
@@ -56,6 +68,7 @@ const List: React.FC = () => {
   const handleOpenDeleteConfirm = async (id: number) => {
     // setSeletedDelete(value)
     // setVisibleDeleteConfirm(true)
+    setConfirmLoading(true)
     try {
       await deleteTrain(id).unwrap()
       toast.success('delete sucessful')
@@ -63,6 +76,10 @@ const List: React.FC = () => {
       console.error(err)
       // Xử lý lỗi
     }
+    setTimeout(() => {
+      setOpen(false)
+      setConfirmLoading(false)
+    }, 1000)
   }
 
   const columns = useMemo((): ColumnsType<any> => {
@@ -145,11 +162,15 @@ const List: React.FC = () => {
               <Tag
                 color={'red'}
                 style={{ cursor: 'pointer' }}
-                onClick={() => handleOpenDeleteConfirm(value.id)}
+                onClick={() => {
+                  setDeleteId(value.id)
+                  showModal()
+                }}
               >
                 <DeleteOutlined />
               </Tag>
             </Tooltip>
+
           </Space>
         ),
       },
@@ -161,7 +182,15 @@ const List: React.FC = () => {
   // }, [isLoading, disPatch, isFetching])
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
+      <Modal
+        open={open}
+        onOk={() => handleOpenDeleteConfirm(deleteId)}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <h3>Bạn có muốn xoá giá trị này ?</h3>
+      </Modal>
       <GridDataTable
         columns={columns}
         data={trains}
