@@ -28,7 +28,7 @@ const Create = () => {
       console.error(err)
       // Xử lý lỗi
     }
-    
+
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -79,6 +79,26 @@ const Create = () => {
                   {
                     value: 'Hồ Chí Minh',
                     label: 'Hồ Chí Minh',
+                  },
+                  {
+                    value: 'Thái Bình',
+                    label: 'Thái Bình',
+                  },
+                  {
+                    value: 'Nam Định',
+                    label: 'Nam Định',
+                  },
+                  {
+                    value: 'Hải Dương',
+                    label: 'Hải Dương',
+                  },
+                  {
+                    value: 'Hưng Yên',
+                    label: 'Hưng Yên',
+                  },
+                  {
+                    value: 'Đà Nẵng',
+                    label: 'Đà Nẵng',
                   },
                 ]}
               />

@@ -2,6 +2,8 @@
 
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
 import { useNavigate, useParams } from 'react-router-dom'
+import {  toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 import React from 'react'
 import './style.scss'
@@ -27,6 +29,7 @@ const Update = () => {
     try {
 
       await updateStation(payload).unwrap()
+      toast.success('Cập nhật trạm ga thành công')
       // Xóa thành công
     } catch (err) {
       console.error(err)
@@ -51,7 +54,7 @@ const Update = () => {
               name="create-user"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 16 }}
-              initialValues={{ 
+              initialValues={{
                 remember: true,
                 stationName:post.stationName,
                 stationPlace:post.stationPlace
